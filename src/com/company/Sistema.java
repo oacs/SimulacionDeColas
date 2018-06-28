@@ -81,15 +81,15 @@ public class Sistema {
                 } else {
                     tiempoMenor = demandantes.get(0).tiempoDeLlegada;
                     etapas.get(0).clientesEnCola.add(demandantes.get(0)); // Cliente encolado
-                    if( etapas.get(0).clientesEnServicio.size() < etapas.get(0).cantidadTotalDeServidores) {
+                    if( etapas.get(0).servidoresOcupados() < etapas.get(0).cantidadTotalDeServidores) {
                         etapas.get(0).servirClientes(); // Cliente en servicio
 
-                        for (Cliente cliente: etapas.get(0).clientesEnServicio) {
-                            if( cliente.identificador == demandantes.get(0).identificador) {
+                        for (Servidor servidor: etapas.get(0).clientesEnServicio) {
+                            if( servidor.clienteEnServicio != null && servidor.clienteEnServicio.identificador == demandantes.get(0).identificador) {
                                 this.clientesSinEspera++;
                                 this.clientesEnSistema++;
                                 demandantes.remove(0);
-                                this.manejarEventoLlegada(cliente, tiempoMenor);
+                                this.manejarEventoLlegada(servidor.clienteEnServicio, tiempoMenor);
 
 
                             }
@@ -102,14 +102,14 @@ public class Sistema {
                             demandantes.get(0).tiempoDeLlegada = generadorTiemposLlegada.obtenerTiempo();
                             this.resultadosSimulacion.ingresarEvento(
                                     "Llegada C", idCliente,
-                                    this.tiempoActual+tiempoMenor, etapas.get(0).clientesEnServicio.size(),
+                                    this.tiempoActual+tiempoMenor, etapas.get(0).servidoresOcupados(),
                                     etapas.get(0).clientesEnCola.get(0).tiempoEnCola, demandantes.get(0).tiempoDeLlegada+"",
                                     etapas.get(0).calcularTiempoProximoEvento()+""
                             );
                         } else {
                             this.resultadosSimulacion.ingresarEvento(
                                     "Llegada C", idCliente,
-                                    this.tiempoActual+tiempoMenor, etapas.get(0).clientesEnServicio.size(),
+                                    this.tiempoActual+tiempoMenor, etapas.get(0).servidoresOcupados(),
                                     etapas.get(0).clientesEnCola.get(0).tiempoEnCola, "---",
                                     etapas.get(0).calcularTiempoProximoEvento()+""
                             );
@@ -134,14 +134,14 @@ public class Sistema {
                             if( etapa.clientesEnCola.size()>0){
                                 this.resultadosSimulacion.ingresarEvento(
                                         "Salida"+ etapa.identificador, clientesServidos.identificador,
-                                        this.tiempoActual, etapa.clientesEnServicio.size(),
+                                        this.tiempoActual, etapa.servidoresOcupados(),
                                         etapa.clientesEnCola.get(0).tiempoEnCola, demandantes.get(0).tiempoDeLlegada+"",
                                         clientesServidos.tiempoEnServicio+""
                                 );
                             } else {
                                 this.resultadosSimulacion.ingresarEvento(
                                         "Salida"+ etapa.identificador, clientesServidos.identificador,
-                                        this.tiempoActual, etapa.clientesEnServicio.size(),
+                                        this.tiempoActual, etapa.servidoresOcupados(),
                                         0, demandantes.get(0).tiempoDeLlegada+"",
                                         clientesServidos.tiempoEnServicio+""
                                 );
@@ -151,14 +151,14 @@ public class Sistema {
                             if( etapa.clientesEnCola.size()>0){
                                 this.resultadosSimulacion.ingresarEvento(
                                         "Salida"+ etapa.identificador, clientesServidos.identificador,
-                                        this.tiempoActual, etapa.clientesEnServicio.size(),
+                                        this.tiempoActual, etapa.servidoresOcupados(),
                                         etapa.clientesEnCola.get(0).tiempoEnCola, "---",
                                         clientesServidos.tiempoEnServicio+""
                                 );
                             } else {
                                 this.resultadosSimulacion.ingresarEvento(
                                         "Salida"+ etapa.identificador, clientesServidos.identificador,
-                                        this.tiempoActual, etapa.clientesEnServicio.size(),
+                                        this.tiempoActual, etapa.servidoresOcupados(),
                                         0, "---",
                                         clientesServidos.tiempoEnServicio+""
                                 );
@@ -182,14 +182,14 @@ public class Sistema {
                             if( etapa.clientesEnCola.size()>0){
                                 this.resultadosSimulacion.ingresarEvento(
                                         "Salida "+ etapa.identificador, cliente.identificador,
-                                        this.tiempoActual, etapa.clientesEnServicio.size(),
+                                        this.tiempoActual, etapa.servidoresOcupados(),
                                         etapa.clientesEnCola.get(0).tiempoEnCola, demandantes.get(0).tiempoDeLlegada+"",
                                         cliente.tiempoEnServicio+""
                                 );
                             } else {
                                 this.resultadosSimulacion.ingresarEvento(
                                         "Salida "+ etapa.identificador, cliente.identificador,
-                                        this.tiempoActual, etapa.clientesEnServicio.size(),
+                                        this.tiempoActual, etapa.servidoresOcupados(),
                                         0, demandantes.get(0).tiempoDeLlegada+"",
                                         cliente.tiempoEnServicio+""
                                 );
@@ -199,14 +199,14 @@ public class Sistema {
                             if( etapas.get(0).clientesEnCola.size()>0 && etapa.clientesEnCola.size() >0){
                                 this.resultadosSimulacion.ingresarEvento(
                                         "Salida "+ etapa.identificador, cliente.identificador,
-                                        this.tiempoActual, etapa.clientesEnServicio.size(),
+                                        this.tiempoActual, etapa.servidoresOcupados(),
                                         etapa.clientesEnCola.get(0).tiempoEnCola, "---",
                                         cliente.tiempoEnServicio+""
                                 );
                             } else {
                                 this.resultadosSimulacion.ingresarEvento(
                                         "Salida "+ etapa.identificador, cliente.identificador,
-                                        this.tiempoActual, etapa.clientesEnServicio.size(),
+                                        this.tiempoActual, etapa.servidoresOcupados(),
                                         0, "---",
                                         cliente.tiempoEnServicio+""
                                 );
@@ -235,14 +235,14 @@ public class Sistema {
             if( etapas.get(0).clientesEnCola.size()>0){
                 this.resultadosSimulacion.ingresarEvento(
                         "Llegada al Sistema", cliente.identificador,
-                        this.tiempoActual+tiempoMenor, etapas.get(0).clientesEnServicio.size(),
+                        this.tiempoActual+tiempoMenor, etapas.get(0).servidoresOcupados(),
                         etapas.get(0).clientesEnCola.get(0).tiempoEnCola, demandantes.get(0).tiempoDeLlegada+"",
                         cliente.tiempoEnServicio+""
                 );
             } else {
                 this.resultadosSimulacion.ingresarEvento(
                         "Llegada al Sistema", cliente.identificador,
-                        this.tiempoActual+tiempoMenor, etapas.get(0).clientesEnServicio.size(),
+                        this.tiempoActual+tiempoMenor, etapas.get(0).servidoresOcupados(),
                         0, demandantes.get(0).tiempoDeLlegada+"",
                         cliente.tiempoEnServicio+""
                 );
@@ -252,14 +252,14 @@ public class Sistema {
             if( etapas.get(0).clientesEnCola.size()>0){
                 this.resultadosSimulacion.ingresarEvento(
                         "Llegada al Sistema", cliente.identificador,
-                        this.tiempoActual+tiempoMenor, etapas.get(0).clientesEnServicio.size(),
+                        this.tiempoActual+tiempoMenor, etapas.get(0).servidoresOcupados(),
                         etapas.get(0).clientesEnCola.get(0).tiempoEnCola, "---",
                         cliente.tiempoEnServicio+""
                 );
             } else {
                 this.resultadosSimulacion.ingresarEvento(
                         "Llegada al Sistema", cliente.identificador,
-                        this.tiempoActual+tiempoMenor, etapas.get(0).clientesEnServicio.size(),
+                        this.tiempoActual+tiempoMenor, etapas.get(0).servidoresOcupados(),
                         0, "---",
                         cliente.tiempoEnServicio+""
                 );
