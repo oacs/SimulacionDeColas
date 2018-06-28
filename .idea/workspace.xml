@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="40d657ea-6d12-48ea-ae12-cb28f056dac5" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/com/company/Servidor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SimulacionDeColas/com/company/Etapa$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/company/Etapa.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/Etapa.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/DatosDeEntrada.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/DatosDeEntrada.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/company/Sistema.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/company/Sistema.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -23,11 +20,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Sistema.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Sistema.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/company/Sistema.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-127">
-              <caret line="62" column="7" lean-forward="true" selection-start-line="62" selection-start-column="7" selection-end-line="62" selection-end-column="7" />
+            <state relative-caret-position="419">
+              <caret line="217" column="75" selection-start-line="217" selection-start-column="75" selection-end-line="217" selection-end-column="75" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -35,7 +32,33 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Etapa.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DatosDeEntrada.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/company/DatosDeEntrada.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="503">
+              <caret line="525" column="9" lean-forward="true" selection-start-line="525" selection-start-column="9" selection-end-line="525" selection-end-column="9" />
+              <folding>
+                <element signature="e#1588#1677#0" expanded="true" />
+                <element signature="e#10636#10637#0" expanded="true" />
+                <element signature="e#10700#10701#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ResultadosSimulacion.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/company/ResultadosSimulacion.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="18" column="151" lean-forward="true" selection-start-line="18" selection-start-column="144" selection-end-line="18" selection-end-column="151" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Etapa.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/company/Etapa.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="263">
@@ -45,18 +68,6 @@
                 <element signature="imports" expanded="true" />
                 <element signature="e#7472#7473#0" expanded="true" />
                 <element signature="e#7543#7544#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DatosDeEntrada.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/company/DatosDeEntrada.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1605">
-              <caret line="521" selection-start-line="521" selection-end-line="521" />
-              <folding>
-                <element signature="e#1588#1677#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -85,13 +96,16 @@
       <find>.add(demandantes.get(0)</find>
       <find>.clientesEnCola.add</find>
       <find>modeloEventos</find>
-      <find>180</find>
       <find>evento</find>
       <find>etapa.clientesEnServicio.size()</find>
       <find>clientesEnServicio.size()</find>
+      <find>180</find>
+      <find>20</find>
+      <find>cliente.tiempoEnServicio</find>
     </findStrings>
     <replaceStrings>
       <replace>etapa.</replace>
+      <replace>etapas.get(0).calcularTiempoProximoEvento()</replace>
     </replaceStrings>
     <dirStrings>
       <dir>C:\Users\Oscar\IdeaProjects\SimulacionDeColas\src</dir>
@@ -111,16 +125,16 @@
         <option value="$PROJECT_DIR$/src/com/company/Table.form" />
         <option value="$PROJECT_DIR$/src/com/company/Table.java" />
         <option value="$PROJECT_DIR$/src/com/company/Main.java" />
-        <option value="$PROJECT_DIR$/src/com/company/DatosDeEntrada.java" />
         <option value="$PROJECT_DIR$/src/com/company/ResultadosSimulacion.java" />
         <option value="$USER_HOME$/Desktop/CaballoDeTroya.java" />
         <option value="$PROJECT_DIR$/src/com/company/Servidor.java" />
-        <option value="$PROJECT_DIR$/src/com/company/Sistema.java" />
         <option value="$PROJECT_DIR$/src/com/company/Etapa.java" />
+        <option value="$PROJECT_DIR$/src/com/company/DatosDeEntrada.java" />
+        <option value="$PROJECT_DIR$/src/com/company/Sistema.java" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="952" />
     <option name="width" value="977" />
     <option name="height" value="1038" />
@@ -257,7 +271,7 @@
       <window_info anchor="right" id="Capture Analysis" order="4" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="6" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.34112793" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.34112793" />
       <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="right" id="Coverage" order="8" side_tool="true" weight="0.3294271" />
       <window_info anchor="bottom" id="Terminal" order="7" />
@@ -269,7 +283,7 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="4" />
       <window_info anchor="right" id="Theme Preview" order="5" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39889959" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39889959" />
       <window_info id="Favorites" order="5" side_tool="true" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -286,18 +300,54 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/company/Sistema.java</url>
-          <line>64</line>
+          <line>208</line>
           <properties />
-          <option name="timeStamp" value="56" />
+          <option name="timeStamp" value="62" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/company/Sistema.java</url>
-          <line>72</line>
+          <line>216</line>
           <properties />
-          <option name="timeStamp" value="57" />
+          <option name="timeStamp" value="63" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/company/Sistema.java</url>
+          <line>136</line>
+          <properties />
+          <option name="timeStamp" value="68" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/company/Sistema.java</url>
+          <line>144</line>
+          <properties />
+          <option name="timeStamp" value="69" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/company/Sistema.java</url>
+          <line>154</line>
+          <properties />
+          <option name="timeStamp" value="70" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/company/Sistema.java</url>
+          <line>163</line>
+          <properties />
+          <option name="timeStamp" value="71" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/company/Sistema.java</url>
+          <line>188</line>
+          <properties />
+          <option name="timeStamp" value="75" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/com/company/Sistema.java</url>
+          <line>192</line>
+          <properties />
+          <option name="timeStamp" value="76" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="58" />
+      <option name="time" value="77" />
     </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
@@ -320,17 +370,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/company/Cliente.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="16" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
-          <folding>
-            <element signature="e#237#238#0" expanded="true" />
-            <element signature="e#287#288#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/company/Sistema.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1292">
@@ -627,16 +666,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/company/ResultadosSimulacion.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="151" lean-forward="true" selection-start-line="18" selection-start-column="144" selection-end-line="18" selection-end-column="151" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/company/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
@@ -721,22 +750,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/company/DatosDeEntrada.java">
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/src.zip!/javax/swing/AbstractButton.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1605">
-          <caret line="521" selection-start-line="521" selection-end-line="521" />
+        <state relative-caret-position="130">
+          <caret line="2347" selection-start-line="2347" selection-end-line="2347" />
           <folding>
-            <element signature="e#1588#1677#0" expanded="true" />
+            <element signature="e#83485#83486#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/company/Sistema.java">
+    <entry file="file://$PROJECT_DIR$/src/com/company/ResultadosSimulacion.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-127">
-          <caret line="62" column="7" lean-forward="true" selection-start-line="62" selection-start-column="7" selection-end-line="62" selection-end-column="7" />
+        <state relative-caret-position="306">
+          <caret line="18" column="151" lean-forward="true" selection-start-line="18" selection-start-column="144" selection-end-line="18" selection-end-column="151" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -750,6 +779,28 @@
             <element signature="imports" expanded="true" />
             <element signature="e#7472#7473#0" expanded="true" />
             <element signature="e#7543#7544#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/company/DatosDeEntrada.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="503">
+          <caret line="525" column="9" lean-forward="true" selection-start-line="525" selection-start-column="9" selection-end-line="525" selection-end-column="9" />
+          <folding>
+            <element signature="e#1588#1677#0" expanded="true" />
+            <element signature="e#10636#10637#0" expanded="true" />
+            <element signature="e#10700#10701#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/company/Sistema.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="419">
+          <caret line="217" column="75" selection-start-line="217" selection-start-column="75" selection-end-line="217" selection-end-column="75" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
           </folding>
         </state>
       </provider>

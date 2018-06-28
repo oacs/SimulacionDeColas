@@ -511,7 +511,7 @@ public class DatosDeEntrada extends javax.swing.JFrame {
             etapas.add(new Etapa(servidores, indice+1, minutos, probabilidades));
             indice++;
         }
-        Sistema sistema = new Sistema(etapas, this.capacidadSistema, this.dataTiemposLlegada, this.dataProbabilidadesTiemposLlegada, 20);
+        Sistema sistema = new Sistema(etapas, this.capacidadSistema, this.dataTiemposLlegada, this.dataProbabilidadesTiemposLlegada, 17);
         System.out.println(sistema.clientesEnSistema+sistema.demandantes.size());
         for (int i = 0; !sistema.end; i++) {
             System.out.println("//////////////////////////////////////////////////////////////");
@@ -519,9 +519,9 @@ public class DatosDeEntrada extends javax.swing.JFrame {
             sistema.ejecutarTransicion();
             System.out.println("\n Realizando la Iteracion "+ i+" tiempo "+sistema.tiempoActual+" \n\n");
             sistema.etapas.get(0).mostrarEtapa();
-            sistema.etapas.get(1).mostrarEtapa();
+            /**sistema.etapas.get(1).mostrarEtapa();
             sistema.etapas.get(2).mostrarEtapa();
-            sistema.etapas.get(3).mostrarEtapa();
+            sistema.etapas.get(3).mostrarEtapa();*/
 
         }
         for(Etapa etapa: sistema.etapas){
@@ -596,7 +596,7 @@ public class DatosDeEntrada extends javax.swing.JFrame {
 
     public void prueba() {
         DefaultTableModel aux = (DefaultTableModel) tablaEstaciones.getModel();
-        aux.addRow(new Object[]{tablaEstaciones.getRowCount()+1,"3"});
+        /**aux.addRow(new Object[]{tablaEstaciones.getRowCount()+1,"3"});
         aux.addRow(new Object[]{tablaEstaciones.getRowCount()+1,"2"});
         aux.addRow(new Object[]{tablaEstaciones.getRowCount()+1,"3"});
         aux.addRow(new Object[]{tablaEstaciones.getRowCount()+1,"4"});
@@ -614,7 +614,19 @@ public class DatosDeEntrada extends javax.swing.JFrame {
         aux.addRow(new Object[]{"1","0.5"});
         aux.addRow(new Object[]{"1","0.3"});
         aux.addRow(new Object[]{"1","0.2"});
-        this.inputCapacidad.setText("20");
+        this.inputCapacidad.setText("20");*/
+        aux.addRow(new Object[]{tablaEstaciones.getRowCount()+1,"1"});
+        aux = (DefaultTableModel) tablaTiemposServicio.getModel();
+        aux.addRow(new Object[]{"1","2","0.5"});
+        aux.addRow(new Object[]{"1","3","0.5"});
+        aux.addRow(new Object[]{"1","1","0.2"});
+        aux = (DefaultTableModel) tablaTiemposLlegada.getModel();
+        aux.addRow(new Object[]{"2","0.8"});
+        aux.addRow(new Object[]{"3","0.3"});
+        aux.addRow(new Object[]{"1","0.1"});
+        aux.addRow(new Object[]{"4","0.1"});
+        this.inputCapacidad.setText("9");
+
     }
     /**
      * @param args the command line arguments
