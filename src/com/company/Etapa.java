@@ -213,4 +213,23 @@ public class Etapa {
         return contador;
     }
 
+    /**
+     *
+     * @param cliente
+     * @return 1= En servicio, 0= en cola
+     */
+    public int agregarCliente( Cliente cliente) {
+        if ( servidoresDisponibles() > 0) {
+            for ( Servidor servidor:  this.clientesEnServicio) {
+                if ( servidor.clienteEnServicio == null) {
+                    servidor.clienteEnServicio = cliente;
+                    servidor.clienteEnServicio.tiempoEnServicio = this.generadorTiemposServicio.obtenerTiempo();
+                    return 1;
+                }
+            }
+        }
+        this.clientesEnCola.add(cliente);
+        return 0;
+    }
+
 }

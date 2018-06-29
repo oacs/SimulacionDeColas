@@ -596,7 +596,7 @@ public class DatosDeEntrada extends javax.swing.JFrame {
 
     public void prueba() {
         DefaultTableModel aux = (DefaultTableModel) tablaEstaciones.getModel();
-        /**aux.addRow(new Object[]{tablaEstaciones.getRowCount()+1,"3"});
+        aux.addRow(new Object[]{tablaEstaciones.getRowCount()+1,"3"});
         aux.addRow(new Object[]{tablaEstaciones.getRowCount()+1,"2"});
         aux.addRow(new Object[]{tablaEstaciones.getRowCount()+1,"3"});
         aux.addRow(new Object[]{tablaEstaciones.getRowCount()+1,"4"});
@@ -614,8 +614,8 @@ public class DatosDeEntrada extends javax.swing.JFrame {
         aux.addRow(new Object[]{"1","0.5"});
         aux.addRow(new Object[]{"1","0.3"});
         aux.addRow(new Object[]{"1","0.2"});
-        this.inputCapacidad.setText("20");*/
-        aux.addRow(new Object[]{tablaEstaciones.getRowCount()+1,"1"});
+        this.inputCapacidad.setText("20");
+        /*aux.addRow(new Object[]{tablaEstaciones.getRowCount()+1,"1"});
         aux = (DefaultTableModel) tablaTiemposServicio.getModel();
         aux.addRow(new Object[]{"1","2","0.5"});
         aux.addRow(new Object[]{"1","3","0.5"});
@@ -625,7 +625,7 @@ public class DatosDeEntrada extends javax.swing.JFrame {
         aux.addRow(new Object[]{"3","0.3"});
         aux.addRow(new Object[]{"1","0.1"});
         aux.addRow(new Object[]{"4","0.1"});
-        this.inputCapacidad.setText("9");
+        this.inputCapacidad.setText("9");*/
 
     }
     /**

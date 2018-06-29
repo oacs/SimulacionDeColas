@@ -4,6 +4,7 @@ package com.company;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 public class ResultadosSimulacion extends javax.swing.JFrame {
@@ -11,41 +12,35 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
     private DefaultTableModel modeloEstadisticas;
     private static int contadorEventos; 
     private static int cantidadEstaciones;
-    private static ArrayList<Float[]> estadisticasAlmacenadas;
+    private  ArrayList<Float[]> estadisticasAlmacenadas;
     
-    public ResultadosSimulacion() {
+    public ResultadosSimulacion( int cantidadEstaciones) {
         initComponents();
         contadorEventos = 0;
         modeloEventos = new DefaultTableModel( new Object [][] {},new String [] {"N° Evento", "Tipo de Evento","ID Cliente","TM","SS","WL","AT","DT"});
         tablaEventos.setModel(modeloEventos);
-        //modeloEstadisticas = new DefaultTableModel( new Object [][] {},new String [] {"Cant. que no esperan","Clientes no atendidos","Prob. de Esperar","Promedio Clientes(Cola)","Promedio Clientes(Sistema)","Promedio Tiempo (Cola)","Promedio tiempo despues de cierre"});
-        //tablaEstadisticas.setModel(modeloEstadisticas);
-        //estadisticasAlmacenadas = new ArrayList<Float[]>();
-        //inicializarComboBox(5);
-        
-        /*Float[]temp = null;
-        temp[0] = new Float(1);
-        temp[1] = new Float(2);
-        temp[2] = new Float(3);
-        temp[3] = new Float(4);
-        temp[4] = new Float(5);
-        temp[5] = new Float(6);
-        temp[6] = new Float(7);*/
-
-        //estadisticasAlmacenadas.set(0, temp);
+        modeloEstadisticas = new DefaultTableModel( new Object [][] {},new String [] {"Cant. que no esperan","Clientes no atendidos","Prob. de Esperar","Promedio Clientes(Cola)","Promedio Clientes(Sistema)","Promedio Tiempo (Cola)","Promedio tiempo despues de cierre"});
+        tablaEstadisticas.setModel(modeloEstadisticas);
+        estadisticasAlmacenadas = new ArrayList<Float[]>();
+        inicializarComboBox(cantidadEstaciones);
     }
     
     public void ingresarEvento(String tipoEvento,int idCliente,int tm,int ss, int wl,String at,String dt){
         DefaultTableModel aux = (DefaultTableModel) tablaEventos.getModel();
+        if ( Integer.parseInt(at) > 99999) {
+            at = "99999";
+        }
+        if ( Integer.parseInt(dt) > 99999) {
+            dt = "99999";
+        }
         aux.addRow(new Object[]{contadorEventos,tipoEvento,idCliente,tm,ss,wl,at,dt});
         contadorEventos++;
     }
     
     public void inicializarComboBox(int cantidad){
         cantidadEstaciones = cantidad;
-        comboBox.addItem("Sistema");
         for(int i = 1 ; i < cantidadEstaciones+1 ; i++)
-            comboBox.addItem("Estacion "+i);
+            comboBox.insertItemAt("Estacion "+i, i-1);
     }
     
     
@@ -211,7 +206,7 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ResultadosSimulacion().setVisible(true);
+                new ResultadosSimulacion(6).setVisible(true);
             }
         });
     

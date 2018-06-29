@@ -23,13 +23,13 @@ public class Sistema {
     public int clientesSinEspera;
     public int tiempoActual;
     public int tiempoCierre;
-    public String at, dt;
+    public int at, dt;
     public boolean end;
 
 
 
     public Sistema(ArrayList<Etapa> etapas, int cantidadClientes, ArrayList<Integer> minutos, ArrayList<Float> probabilidades, int tiempoCierre) {
-        this.resultadosSimulacion = new ResultadosSimulacion();
+        this.resultadosSimulacion = new ResultadosSimulacion(etapas.size());
         this.resultadosSimulacion.setVisible(true);
         this.etapas = etapas;
         this.generadorTiemposLlegada = new GeneradorDeTiempos(minutos, probabilidades);
@@ -41,9 +41,10 @@ public class Sistema {
         this.clientesSinEspera = 0;
         this.clientesEnSistema=0;
         this.end=false;
-        this.at= "0";
-        this.dt = "99999";
+        this.at= 0;
+        this.dt = 99999;
         this.tiempoCierre = tiempoCierre;
+        this.resultadosSimulacion.ingresarEvento("Inicializacion del Sistema", 0, this.tiempoActual, 0, 0, this.tiempoActual+ at+"", this.tiempoActual+dt+"");
     }
 
     /** calcularTiempoMenorEtapas - busca el tiempo menor para un proximo evento de salida
@@ -65,167 +66,55 @@ public class Sistema {
      *
      */
     public void ejecutarTransicion(){
-        if(this.tiempoActual >= this.tiempoCierre && clientesEnSistema <= 0) {
-            System.out.println("Se acabo la simulacion");
+        if( tiempoActual > tiempoCierre && clientesEnSistema<=0){
+            System.out.println("Termino el sistema");
             this.end = true;
             return;
         }
-        if(this.tiempoActual >= this.tiempoCierre) {
-            demandantes.clear();
-        }
-        if((demandantes.size()>0 || clientesEnSistema > 0) ||  this.tiempoActual < this.tiempoCierre) {
-            int tiempoMenor;
-
-            if (demandantes.size() > 0 && this.tiempoActual < this.tiempoCierre) {
-                tiempoMenor = demandantes.get(0).tiempoDeLlegada;
-                tiempoMenor = calcularTiempoMenorEtapas(tiempoMenor);
-                if (tiempoMenor < demandantes.get(0).tiempoDeLlegada) {
-                    demandantes.get(0).tiempoDeLlegada -= tiempoMenor;
-                } else {
-                    tiempoMenor = demandantes.get(0).tiempoDeLlegada;
-                    etapas.get(0).clientesEnCola.add(demandantes.get(0)); // Cliente encolado
-                    if( etapas.get(0).servidoresOcupados() < etapas.get(0).cantidadTotalDeServidores) {
-                        etapas.get(0).servirClientes(); // Cliente en servicio
-
-                        for (Servidor servidor: etapas.get(0).clientesEnServicio) {
-                            if( servidor.clienteEnServicio != null && demandantes.size() >0 &&  servidor.clienteEnServicio.identificador == demandantes.get(0).identificador) {
-                                this.clientesSinEspera++;
-                                this.clientesEnSistema++;
-                                demandantes.remove(0);
-                                this.manejarEventoLlegada(servidor.clienteEnServicio, tiempoMenor);
-                            }
-                        }
-                    } else {
-                        this.clientesEnSistema++;
-                        int idCliente = demandantes.get(0).identificador;
-                        demandantes.remove(0);
-                        if (demandantes.size() > 0) {
-                            demandantes.get(0).tiempoDeLlegada = generadorTiemposLlegada.obtenerTiempo();
-                            this.resultadosSimulacion.ingresarEvento(
-                                    "Llegada en Cola", idCliente,
-                                    this.tiempoActual+tiempoMenor, etapas.get(0).servidoresOcupados(),
-                                    etapas.get(0).clientesEnCola.size(), at, dt
-                            );
-                            at =demandantes.get(0).tiempoDeLlegada+this.tiempoActual+tiempoMenor+"";
-                             dt=       (etapas.get(0).calcularTiempoProximoEvento()+this.tiempoActual)+"";
-                        } else {
-                            this.resultadosSimulacion.ingresarEvento(
-                                    "Llegada en Cola", idCliente,
-                                    this.tiempoActual+tiempoMenor, etapas.get(0).servidoresOcupados(),
-                                    etapas.get(0).clientesEnCola.size(), "---",
-                                    (etapas.get(0).calcularTiempoProximoEvento()+this.tiempoActual)+""
-                            );
-                            at = "---";
-                            dt=       (etapas.get(0).calcularTiempoProximoEvento()+this.tiempoActual)+"";
-                        }
-                    }
+            int tiempoMenor = 0;
+            if ( at <= dt) {
+                tiempoMenor = at;
+                int idTemporal = 0;
+                if( demandantes.size()>0){
+                    idTemporal = demandantes.get(0).identificador;
+                    this.etapas.get(0).agregarCliente(this.demandantes.remove(0));
+                    this.clientesEnSistema++;
                 }
+                if( demandantes.size()>0)
+                    at = this.demandantes.get(0).tiempoDeLlegada = this.generadorTiemposLlegada.obtenerTiempo();
+                else
+                    at = 99999;
+                this.resultadosSimulacion.ingresarEvento("Llegada al Sistema", idTemporal, this.tiempoActual+tiempoMenor, this.etapas.get(0).servidoresOcupados(), this.etapas.get(0).clientesEnCola.size(), this.tiempoActual+ at+"", this.tiempoActual+this.calcularTiempoMenorEtapas(99999)+"");
+                // Evento llegada al Sistema
             } else {
-                tiempoMenor = calcularTiempoMenorEtapas(99999);
+                tiempoMenor = dt;
+                if( demandantes.size() > 0){
+                    this.demandantes.get(0).tiempoDeLlegada-=tiempoMenor;
+                }
             }
-            tiempoActual += tiempoMenor;
-            int index = 0;
-            for (Etapa etapa : etapas) {
-                etapa.avanzarTiempo(tiempoMenor);
-                etapa.servirClientes();
-                if (index + 1 < etapas.size()) {
-                    for (Cliente clientesServidos : etapa.sacarClientes()) {
-                        etapas.get(index + 1).clientesEnCola.add(clientesServidos);
-                        if (demandantes.size() > 0) {
-                            demandantes.get(0).tiempoDeLlegada = generadorTiemposLlegada.obtenerTiempo();
-                            if( etapa.clientesEnCola.size()>0){
-                                this.resultadosSimulacion.ingresarEvento(
-                                        "Salida"+ etapa.identificador, clientesServidos.identificador,
-                                        this.tiempoActual, etapa.servidoresOcupados(),
-                                        etapa.clientesEnCola.size(), at, dt
-                                );
-                                at=demandantes.get(0).tiempoDeLlegada+this.tiempoActual+"";
-                                dt =       (tiempoMenor+this.tiempoActual)+"";
-                            } else {
-                                this.resultadosSimulacion.ingresarEvento(
-                                        "Salida"+ etapa.identificador, clientesServidos.identificador,
-                                        this.tiempoActual, etapa.servidoresOcupados(),
-                                        etapa.clientesEnCola.size(), at, dt
-                                );
-                                at =demandantes.get(0).tiempoDeLlegada+this.tiempoActual+"";
-                                dt =       (tiempoMenor+this.tiempoActual)+"";
-                            }
-                        } else {
-                            if( etapa.clientesEnCola.size()>0){
-                                this.resultadosSimulacion.ingresarEvento(
-                                        "Salida"+ etapa.identificador, clientesServidos.identificador,
-                                        this.tiempoActual, etapa.servidoresOcupados(),
-                                        etapa.clientesEnCola.size(), "---",
-                                        (clientesServidos.tiempoEnServicio+this.tiempoActual)+""
-                                );
-                                at = "---";
-                                dt =       (tiempoMenor+this.tiempoActual)+"";
-                            } else {
-                                this.resultadosSimulacion.ingresarEvento(
-                                        "Salida"+ etapa.identificador, clientesServidos.identificador,
-                                        this.tiempoActual, etapa.servidoresOcupados(),
-                                        etapa.clientesEnCola.size(), "---",
-                                        (clientesServidos.tiempoEnServicio+this.tiempoActual)+""
-                                );
-                                at = "---";
-                                dt =       (tiempoMenor+this.tiempoActual)+"";
-                            }
 
-                        }
-                    }
-                } else {
-                    for (Cliente cliente : etapa.sacarClientes()) {
-                        System.out.println("Evento salida del sistema del cliente " + cliente.identificador);
+            this.tiempoActual+= tiempoMenor;
+
+            for ( Etapa etapa: this.etapas) {
+                etapa.avanzarTiempo(tiempoMenor);
+
+                for (Cliente cliente: etapa.sacarClientes()){
+                    if( etapa.identificador == this.etapas.size()){
+                        // Evento salida del sistema
+                        this.resultadosSimulacion.ingresarEvento("Salida del Sistema", cliente.identificador, this.tiempoActual, etapa.servidoresOcupados(), etapa.clientesEnCola.size(), this.tiempoActual+ at+"", this.tiempoActual+dt+"");
+                        this.demandantes.add(new Cliente(cliente.identificador, this.generadorTiemposLlegada.obtenerTiempo()));
                         this.clientesEnSistema--;
-                        if (this.tiempoActual < this.tiempoCierre) {
-                            demandantes.add(new Cliente(cliente.identificador, 0));
-                            if(demandantes.size()==1){
-                                demandantes.get(0).tiempoDeLlegada = generadorTiemposLlegada.obtenerTiempo();
-                            }
-                        }
-                        if (demandantes.size() > 0) {
-                            demandantes.get(0).tiempoDeLlegada = generadorTiemposLlegada.obtenerTiempo();
-                            if( etapa.clientesEnCola.size()>0){
-                                this.resultadosSimulacion.ingresarEvento(
-                                        "Salida "+ etapa.identificador, cliente.identificador,
-                                        this.tiempoActual, etapa.servidoresOcupados(),
-                                        etapa.clientesEnCola.size(), at, dt
-                                );
-                                at =demandantes.get(0).tiempoDeLlegada+this.tiempoActual+"";
-                                 dt =       (tiempoMenor+this.tiempoActual)+"";
-                            } else {
-                                this.resultadosSimulacion.ingresarEvento(
-                                        "Salida "+ etapa.identificador, cliente.identificador,
-                                        this.tiempoActual, etapa.servidoresOcupados(),
-                                        etapa.clientesEnCola.size(), at, dt
-                                );
-                                at = demandantes.get(0).tiempoDeLlegada+this.tiempoActual+"";
-                                 dt =(tiempoMenor+this.tiempoActual)+"";
-                            }
-                        } else {
-                            if( etapas.get(0).clientesEnCola.size()>0 && etapa.clientesEnCola.size() >0){
-                                this.resultadosSimulacion.ingresarEvento(
-                                        "Salida "+ etapa.identificador, cliente.identificador,
-                                        this.tiempoActual, etapa.servidoresOcupados(),
-                                        etapa.clientesEnCola.size(), at, dt
-                                );
-                                at="---";
-                                dt=(tiempoMenor+this.tiempoActual)+"";
-                            } else {
-                                this.resultadosSimulacion.ingresarEvento(
-                                        "Salida "+ etapa.identificador, cliente.identificador,
-                                        this.tiempoActual, etapa.servidoresOcupados(),
-                                        etapa.clientesEnCola.size(), at, dt
-                                );
-                                at="---";
-                                dt=(tiempoMenor+this.tiempoActual)+"";
-                            }
-                        }
+                    } else {
+                        // Evento salida de una etapa
+                        this.resultadosSimulacion.ingresarEvento("Salida de etapa "+etapa.identificador, cliente.identificador, this.tiempoActual, etapa.servidoresOcupados(), etapa.clientesEnCola.size(), this.tiempoActual+ at+"", this.tiempoActual+dt+"");
+                        this.etapas.get(etapa.identificador).agregarCliente(new Cliente(cliente.identificador, this.generadorTiemposLlegada.obtenerTiempo()));
                     }
                 }
-                index++;
+                etapa.servirClientes();
             }
-        }
+            dt = calcularTiempoMenorEtapas(99999);
+            if( tiempoActual > tiempoCierre)
+                at = 99999;
     }
 
     public void mostrarDemandantes() {
@@ -234,48 +123,5 @@ public class Sistema {
         }
     }
 
-    public void manejarEventoLlegada(Cliente cliente, int tiempoMenor){
-        if (demandantes.size() > 0) {
-            demandantes.get(0).tiempoDeLlegada = generadorTiemposLlegada.obtenerTiempo();
-            if( etapas.get(0).clientesEnCola.size()>0){
-                this.resultadosSimulacion.ingresarEvento(
-                        "Llegada al Sistema", cliente.identificador,
-                        this.tiempoActual+tiempoMenor, etapas.get(0).servidoresOcupados(),
-                        etapas.get(0).clientesEnCola.size(), at,
-                        dt
-                );
-                at = demandantes.get(0).tiempoDeLlegada+tiempoActual+tiempoMenor+"";
-                dt = cliente.tiempoEnServicio + tiempoActual+ tiempoMenor +"";
-            } else {
-                this.resultadosSimulacion.ingresarEvento(
-                        "Llegada al Sistema", cliente.identificador,
-                        this.tiempoActual+tiempoMenor, etapas.get(0).servidoresOcupados(),
-                        etapas.get(0).clientesEnCola.size(), at,
-                        dt
-                );
-                at = demandantes.get(0).tiempoDeLlegada+tiempoActual+tiempoMenor+"";
-                dt = cliente.tiempoEnServicio + tiempoActual+ tiempoMenor +"";
-            }
-        } else {
-            if( etapas.get(0).clientesEnCola.size()>0){
-                this.resultadosSimulacion.ingresarEvento(
-                        "Llegada al Sistema", cliente.identificador,
-                        this.tiempoActual+tiempoMenor, etapas.get(0).servidoresOcupados(),
-                        etapas.get(0).clientesEnCola.size(), at,
-                        dt
-                );
-                at= "---";
-                dt = cliente.tiempoEnServicio + tiempoActual+ tiempoMenor +"";
-            } else {
-                this.resultadosSimulacion.ingresarEvento(
-                        "Llegada al Sistema", cliente.identificador,
-                        this.tiempoActual+tiempoMenor, etapas.get(0).servidoresOcupados(),
-                        0, at,
-                        dt
-                );
-                at= "---";
-                dt = cliente.tiempoEnServicio + tiempoActual+ tiempoMenor +"";
-            }
-        }
-    }
+
 }
