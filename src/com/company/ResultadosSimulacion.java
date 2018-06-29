@@ -23,6 +23,8 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
         tablaEstadisticas.setModel(modeloEstadisticas);
         estadisticasAlmacenadas = new ArrayList<Float[]>();
         inicializarComboBox(cantidadEstaciones);
+        ingresarEstadistica(2,0,0,0,0,
+                0,0);
     }
     
     public void ingresarEvento(String tipoEvento,int idCliente,int tm,int ss, int wl,String at,String dt){
@@ -35,6 +37,21 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
         }
         aux.addRow(new Object[]{contadorEventos,tipoEvento,idCliente,tm,ss,wl,at,dt});
         contadorEventos++;
+    }
+
+    public void ingresarEstadistica(float cantidadSinEsperar, float cantidadNoAtendidos, float probEspera,
+                                    float promedioCola, float promedioSistema, float promedioTiempoEnCola,
+                                    float promedioTiempo){
+        Float[] auxiliar = new Float[7];
+        auxiliar[0] = cantidadSinEsperar;
+        auxiliar[1] = cantidadNoAtendidos;
+        auxiliar[2] = probEspera;
+        auxiliar[3] = promedioCola;
+        auxiliar[4] = promedioSistema;
+        auxiliar[5] = promedioTiempoEnCola;
+        auxiliar[6] = promedioTiempo;
+        DefaultTableModel aux = (DefaultTableModel) tablaEventos.getModel();
+        aux.addRow(auxiliar);
     }
     
     public void inicializarComboBox(int cantidad){
