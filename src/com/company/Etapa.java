@@ -243,6 +243,31 @@ public class Etapa {
         return 0;
     }
 
+    public int getClientesAtendidos() {
+        return  this.clientesConEspera + this.clientesSinEspera;
+    }
+
+    public float[] getPorcentajeDeUtilizacionEtapas() {
+        float[] porcentajeUtilizacionEtapas = new int[this.cantidadTotalDeServidores];
+        int i = 0;
+        for (Servidor servidor: this.clientesEnServicio) {
+            porcentajeUtilizacionEtapas[i++] = servidor.getPorcentajeDeUtilizacion(this.getClientesAtendidos());
+        }
+        return porcentajeUtilizacionEtapas;
+    }
+
+    public float getProbabilidadDeEsperar() {
+        return  (float)(this.clientesConEspera / this.getClientesAtendidos());
+    }
+
+    public float getTiempoPromedioEnCola() {
+        return (float)(this.totalTiemposEnCola/this.getClientesAtendidos());
+    }
+
+    public float getTiempoPromedioClienteHaceCola() {
+        return (float)((this.clientesConEspera > 0) ? (this.totalTiemposEnCola / this.clientesConEspera) : 0);
+    }
+    
     /**
      * imprime estadisticas del sistema.
      */
