@@ -44,6 +44,8 @@ public class Sistema {
         this.at= 0;
         this.dt = 99999;
         this.tiempoCierre = tiempoCierre;
+        /* SE HACE LLAMADA A LA FUNCION PARA INGRESAR UN ROW */
+        // this.resultadosSimulacion.ingresarEstadistica (0,0, 5, 6, 9, 3, 9);
         this.resultadosSimulacion.ingresarEvento("Inicializacion del Sistema", 0, this.tiempoActual, 0, 0, this.tiempoActual+ at+"", this.tiempoActual+dt+"");
     }
 
@@ -63,7 +65,7 @@ public class Sistema {
     }
 
     /**
-     *
+     * SIMULACION
      */
     public void ejecutarTransicion(){
         if( tiempoActual > tiempoCierre && clientesEnSistema<=0){

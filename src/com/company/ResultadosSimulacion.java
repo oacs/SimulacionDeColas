@@ -50,7 +50,7 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
         auxiliar[4] = promedioSistema;
         auxiliar[5] = promedioTiempoEnCola;
         auxiliar[6] = promedioTiempo;
-        DefaultTableModel aux = (DefaultTableModel) tablaEventos.getModel();
+        DefaultTableModel aux = (DefaultTableModel) tablaEstadisticas.getModel();
         aux.addRow(auxiliar);
     }
     
@@ -78,8 +78,8 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
     
     public void rellenarTablaEstadisticas(int target){
         DefaultTableModel aux = (DefaultTableModel) tablaEstadisticas.getModel();
-        Float[] estadisticas = estadisticasAlmacenadas.get(target);
-        aux.addRow(new Object[]{estadisticas[0],estadisticas[1],estadisticas[2],estadisticas[3],estadisticas[4],estadisticas[5],estadisticas[6]});
+        //Float[] estadisticas = estadisticasAlmacenadas.get(target);
+        //aux.addRow(new Object[]{estadisticas[0],estadisticas[1],estadisticas[2],estadisticas[3],estadisticas[4],estadisticas[5],estadisticas[6]});
     }
     
     @SuppressWarnings("unchecked")
@@ -104,7 +104,7 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(51, 51, 51));
         jLabel1.setText("Resultados de la simulación");
 
-        tablaEventos.setModel(new DefaultTableModel(
+        tablaEventos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -117,7 +117,7 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tablaEventos);
 
-        tablaEstadisticas.setModel(new DefaultTableModel(
+        tablaEstadisticas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -134,9 +134,14 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(51, 51, 51));
         jLabel2.setText("Estadísticas de:");
 
-        comboBox.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent evt) {
+        comboBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 comboBoxItemStateChanged(evt);
+            }
+        });
+        comboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxActionPerformed(evt);
             }
         });
 
@@ -196,7 +201,12 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
 
         if(evt.getStateChange() == ItemEvent.SELECTED)
             rellenarTablaEstadisticas(comboBox.getSelectedIndex());
+            // System.out.println ('AQUIIIII ESTA LO DEL COMBOBOXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" + comboBox.getSelectedIndex());
     }//GEN-LAST:event_comboBoxItemStateChanged
+
+    private void comboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboBoxActionPerformed
 
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
