@@ -514,19 +514,20 @@ public class DatosDeEntrada extends javax.swing.JFrame {
         Sistema sistema = new Sistema(etapas, this.capacidadSistema, this.dataTiemposLlegada, this.dataProbabilidadesTiemposLlegada, 17);
         System.out.println(sistema.clientesEnSistema+sistema.demandantes.size());
         for (int i = 0; !sistema.end; i++) {
-            System.out.println("//////////////////////////////////////////////////////////////");
+            // System.out.println("//////////////////////////////////////////////////////////////");
             sistema.mostrarDemandantes();
             sistema.ejecutarTransicion();
-            System.out.println("\n Realizando la Iteracion "+ i+" tiempo "+sistema.tiempoActual+" \n\n");
-            sistema.etapas.get(0).mostrarEtapa();
+            // System.out.println("\n Realizando la Iteracion "+ i+" tiempo "+sistema.tiempoActual+" \n\n");
+            // sistema.etapas.get(0).mostrarEtapa();
             /**sistema.etapas.get(1).mostrarEtapa();
             sistema.etapas.get(2).mostrarEtapa();
             sistema.etapas.get(3).mostrarEtapa();*/
 
         }
         for(Etapa etapa: sistema.etapas){
-            System.out.println("Tiempo promedio de servicio en la etapa " + etapa.identificador + " = " + etapa.getTiempoPromedioEnServicio());
-            etapa.getTiempoPromedioEnCola();
+            //System.out.println("Tiempo promedio de servicio en la etapa " + etapa.identificador + " = " + etapa .getTiempoPromedioEnServicio());
+            //etapa.getTiempoPromedioEnCola();
+            System.out.println ("CANT CLIENTES SIN ESPERA" + etapa.clientesSinEspera);
         }
     }//GEN-LAST:event_botonGuardarActionPerformed
 

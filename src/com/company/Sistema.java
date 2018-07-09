@@ -69,6 +69,10 @@ public class Sistema {
         if( tiempoActual > tiempoCierre && clientesEnSistema<=0){
             System.out.println("Termino el sistema");
             this.end = true;
+            for ( Etapa etapa: etapas) {
+                etapa.estadisticas();
+            }
+
             return;
         }
             int tiempoMenor = 0;
