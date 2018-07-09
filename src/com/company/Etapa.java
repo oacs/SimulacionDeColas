@@ -22,30 +22,30 @@ import java.util.function.Predicate;
  */
 public class Etapa {
 
-    public int identificador;                               // Numero de la Etapa
-    public int cantidadTotalDeServidores;                   // Cantidad de servidores en paralelo
-    public ArrayList<Cliente> clientesEnCola;               // Clientes que se encuentran en cola
-    public Servidor clientesEnServicio[];           // Clientes que se encuentran en algun servidor
+    public int identificador; // Numero de la Etapa
+    public int cantidadTotalDeServidores; // Cantidad de servidores en paralelo
+    public ArrayList < Cliente > clientesEnCola; // Clientes que se encuentran en cola
+    public Servidor clientesEnServicio[]; // Clientes que se encuentran en algun servidor
     // public ArrayList<Cliente> clientesAtendidos;            // Clientes que ya fueron atendidos
-    public float tiempoPromedioEnServicio;                  // Tiempo promedio de un cliente en servicio
-    public float tiempoPromedioEnCola;                      // Tiempo promedio de un cliente en cola
-    private float totalTiemposEnServicio;                   // Suma de todos los tiempos de servicio
-    private float totalTiemposEnCola;                       // Suma de todos los tiempos de cola
-    private GeneradorDeTiempos generadorTiemposServicio;    // Genera los tiempos de servicio de los clientes
-    public int clientesSinEspera=0;
-    public int clientesConEspera=0;
-    public double probEsperar;                              // Probabilidad de esperar.
-    public double promCola;                                 // Promedio de un cliente en cola.
+    public float tiempoPromedioEnServicio; // Tiempo promedio de un cliente en servicio
+    public float tiempoPromedioEnCola; // Tiempo promedio de un cliente en cola
+    private float totalTiemposEnServicio; // Suma de todos los tiempos de servicio
+    private float totalTiemposEnCola; // Suma de todos los tiempos de cola
+    private GeneradorDeTiempos generadorTiemposServicio; // Genera los tiempos de servicio de los clientes
+    public int clientesSinEspera = 0;
+    public int clientesConEspera = 0;
+    public double probEsperar; // Probabilidad de esperar.
+    public double promCola; // Promedio de un cliente en cola.
 
 
     /** Constructor de Etapa
      * @param cantidadTotalDeServidores: Cantidad de servidores en paralelo que posee la etapa.
      * @param identificador: Numero de la etapa.
      */
-    public Etapa(int cantidadTotalDeServidores, int identificador, ArrayList<Integer> minutos, ArrayList<Float> probabilidades) {
+    public Etapa(int cantidadTotalDeServidores, int identificador, ArrayList < Integer > minutos, ArrayList < Float > probabilidades) {
         this.cantidadTotalDeServidores = cantidadTotalDeServidores;
         this.identificador = identificador;
-        this.clientesEnCola = new ArrayList<Cliente>();
+        this.clientesEnCola = new ArrayList < Cliente > ();
         this.clientesEnServicio = new Servidor[cantidadTotalDeServidores];
         for (int i = 0; i < cantidadTotalDeServidores; i++) {
             this.clientesEnServicio[i] = new Servidor();
@@ -71,8 +71,8 @@ public class Etapa {
      */
     public int calcularTiempoProximoEvento() {
         int tiempoMenorParaProximoEvento = 99999;
-        for (Servidor servidor: clientesEnServicio){
-            if(servidor.clienteEnServicio!=  null && tiempoMenorParaProximoEvento > servidor.clienteEnServicio.tiempoEnServicio) {
+        for (Servidor servidor: clientesEnServicio) {
+            if (servidor.clienteEnServicio != null && tiempoMenorParaProximoEvento > servidor.clienteEnServicio.tiempoEnServicio) {
                 tiempoMenorParaProximoEvento = servidor.clienteEnServicio.tiempoEnServicio;
             }
         }
@@ -87,7 +87,7 @@ public class Etapa {
      *
      * @param tiempoTranscurrido: unidades de tiempo a transcurrir dentro de la etapa
      */
-    public void avanzarTiempo(int tiempoTranscurrido){
+    public void avanzarTiempo(int tiempoTranscurrido) {
         aumentarTiemposDeCola(tiempoTranscurrido);
         disminuirTiemposEnServicio(tiempoTranscurrido);
     }
@@ -98,7 +98,7 @@ public class Etapa {
      * @param tiempoTranscurrido: unidades de tiempo a aumentar dentro de los clientes en cola
      */
     private void aumentarTiemposDeCola(int tiempoTranscurrido) {
-        for( Cliente cliente: clientesEnCola) {
+        for (Cliente cliente: clientesEnCola) {
             cliente.tiempoEnCola += tiempoTranscurrido;
         }
     }
@@ -109,10 +109,10 @@ public class Etapa {
      * @param tiempoTranscurrido: unidades de tiempo a disminuir dentro de los clientes en servicio
      */
     private void disminuirTiemposEnServicio(int tiempoTranscurrido) {
-        for( Servidor servidor: clientesEnServicio) {
-            if (servidor.clienteEnServicio != null){
+        for (Servidor servidor: clientesEnServicio) {
+            if (servidor.clienteEnServicio != null) {
                 servidor.clienteEnServicio.tiempoEnServicio -= tiempoTranscurrido;
-                totalTiemposEnServicio+= tiempoTranscurrido;
+                totalTiemposEnServicio += tiempoTranscurrido;
             }
 
         }
@@ -123,17 +123,17 @@ public class Etapa {
      *
      * @return Devuelve una lista con todos los clientes que deben pasar a otra etapa
      */
-    public ArrayList<Cliente> sacarClientes() {
-        ArrayList<Cliente> clientesSaliendo = new ArrayList<Cliente>();
-        for( Servidor servidor: clientesEnServicio) {
-            if( servidor.clienteEnServicio!=  null && servidor.clienteEnServicio.tiempoEnServicio == 0){
+    public ArrayList < Cliente > sacarClientes() {
+        ArrayList < Cliente > clientesSaliendo = new ArrayList < Cliente > ();
+        for (Servidor servidor: clientesEnServicio) {
+            if (servidor.clienteEnServicio != null && servidor.clienteEnServicio.tiempoEnServicio == 0) {
                 // this.clientesAtendidos.add(servidor.clienteEnServicio);
                 servidor.clientesAtendidos++;
                 clientesSaliendo.add(new Cliente(servidor.clienteEnServicio.identificador));
             }
         }
-        for (int i = 0; i < this.clientesEnServicio.length ; i++) {
-            if(this.clientesEnServicio[i].clienteEnServicio!=  null &&this.clientesEnServicio[i].clienteEnServicio.tiempoEnServicio == 0) {
+        for (int i = 0; i < this.clientesEnServicio.length; i++) {
+            if (this.clientesEnServicio[i].clienteEnServicio != null && this.clientesEnServicio[i].clienteEnServicio.tiempoEnServicio == 0) {
                 this.clientesEnServicio[i].clienteEnServicio = null;
             }
         }
@@ -146,12 +146,12 @@ public class Etapa {
      *
      */
     public void servirClientes() {
-        while( (servidoresDisponibles() > 0 ) && (clientesEnCola.size()>0)) {
+        while ((servidoresDisponibles() > 0) && (clientesEnCola.size() > 0)) {
             this.clientesEnCola.get(0).tiempoEnServicio = generadorTiemposServicio.obtenerTiempo();
-            for ( Servidor servidor: this.clientesEnServicio) {
-                if ( servidor.clienteEnServicio == null) {
+            for (Servidor servidor: this.clientesEnServicio) {
+                if (servidor.clienteEnServicio == null) {
                     servidor.clienteEnServicio = this.clientesEnCola.get(0);
-                    this.totalTiemposEnCola+=this.clientesEnCola.get(0).tiempoEnCola;
+                    this.totalTiemposEnCola += this.clientesEnCola.get(0).tiempoEnCola;
                     break;
                 }
             }
@@ -164,14 +164,14 @@ public class Etapa {
     public void mostrarEtapa() {
         System.out.println("Etapa " + this.identificador);
         System.out.print("Clientes en cola: ");
-        for ( Cliente cliente: clientesEnCola) {
+        for (Cliente cliente: clientesEnCola) {
             System.out.print(cliente.identificador + "<- ");
         }
         System.out.println("\n");
         System.out.print("Clientes en servicio: ");
-        for ( Servidor servidor: clientesEnServicio) {
-            if ( servidor.clienteEnServicio != null) {
-                System.out.print(servidor.clienteEnServicio.identificador + "(" + servidor.clienteEnServicio.tiempoEnServicio + "), " );
+        for (Servidor servidor: clientesEnServicio) {
+            if (servidor.clienteEnServicio != null) {
+                System.out.print(servidor.clienteEnServicio.identificador + "(" + servidor.clienteEnServicio.tiempoEnServicio + "), ");
             }
         }
         System.out.println("\n");
@@ -189,31 +189,31 @@ public class Etapa {
     /** getTiempoPromedioEnCola - Agrega los clientes que estaba
      *
      */
-   /* public float getTiempoPromedioEnCola(){
-        float tiempoPromedioEnCola=0f;
-        for(Cliente cliente: clientesAtendidos) {
-           tiempoPromedioEnCola+= cliente.tiempoEnCola;
-        }
-        tiempoPromedioEnCola /= clientesAtendidos.size();
-        System.out.println(tiempoPromedioEnCola);
-        return  tiempoPromedioEnCola;
-    }*/
+    /* public float getTiempoPromedioEnCola(){
+         float tiempoPromedioEnCola=0f;
+         for(Cliente cliente: clientesAtendidos) {
+            tiempoPromedioEnCola+= cliente.tiempoEnCola;
+         }
+         tiempoPromedioEnCola /= clientesAtendidos.size();
+         System.out.println(tiempoPromedioEnCola);
+         return  tiempoPromedioEnCola;
+     }*/
 
-    public int servidoresDisponibles(){
+    public int servidoresDisponibles() {
         int contador = 0;
-        for ( Servidor servidor: this.clientesEnServicio){
-            if (servidor.clienteEnServicio == null){
-                contador ++;
+        for (Servidor servidor: this.clientesEnServicio) {
+            if (servidor.clienteEnServicio == null) {
+                contador++;
             }
         }
         return contador;
     }
 
-    public int servidoresOcupados(){
+    public int servidoresOcupados() {
         int contador = 0;
-        for ( Servidor servidor: this.clientesEnServicio){
-            if (servidor.clienteEnServicio != null){
-                contador ++;
+        for (Servidor servidor: this.clientesEnServicio) {
+            if (servidor.clienteEnServicio != null) {
+                contador++;
             }
         }
         return contador;
@@ -224,21 +224,21 @@ public class Etapa {
      * @param cliente
      * @return 1= En servicio, 0= en cola
      */
-    public int agregarCliente( Cliente cliente) {
-        if ( servidoresDisponibles() > 0) {
-            for ( Servidor servidor:  this.clientesEnServicio) {
-                if ( servidor.clienteEnServicio == null) {
+    public int agregarCliente(Cliente cliente) {
+        if (servidoresDisponibles() > 0) {
+            for (Servidor servidor: this.clientesEnServicio) {
+                if (servidor.clienteEnServicio == null) {
                     servidor.clienteEnServicio = cliente;
                     servidor.clienteEnServicio.tiempoEnServicio = this.generadorTiemposServicio.obtenerTiempo();
                     // System.out.println(cliente.tiempoEnCola);
-                    if (cliente.tiempoEnCola == 0){
-                        this.clientesSinEspera+=1;
+                    if (cliente.tiempoEnCola == 0) {
+                        this.clientesSinEspera += 1;
                     }
                     return 1;
                 }
             }
         }
-        this.clientesConEspera+=1;
+        this.clientesConEspera += 1;
         this.clientesEnCola.add(cliente);
         return 0;
     }
@@ -246,22 +246,28 @@ public class Etapa {
     /**
      * imprime estadisticas del sistema.
      */
-    public void estadisticas (){
-        double acum=this.clientesConEspera + this.clientesSinEspera;
+    public void estadisticas() {
+        double acum = this.clientesConEspera + this.clientesSinEspera;
         System.out.println("\nEtapa: " + this.identificador);
         System.out.println("Clientes Atendidos: " + acum);
         System.out.println("Cantidad de Clientes que No Esperan: " + this.clientesSinEspera);
         System.out.println("Cantidad de Clientes que Esperan: " + this.clientesConEspera);
         // System.out.println("totalTiemposEnCola: " + this.totalTiemposEnCola);
-        /*for ( Servidor servidor:  this.clientesEnServicio) {
-            acum+=servidor.clientesAtendidos;
-        }*/
-        double ax = (this.clientesConEspera/acum);
-        this.probEsperar =  (this.clientesConEspera/acum);
+        System.out.println("Porcentaje de utilizacion en Etapa " + this.identificador + ":\n");
+        int i = 1;
+        for (Servidor servidor: this.clientesEnServicio) {
+            // acum+=servidor.clientesAtendidos;
+           /* System.out.println(
+                "\tPorcentaje de utilizacion en Etapa "+ i + ": " + String.format("%2.f", servidor.getPorcentajeDeUtilizacion(acum)*100) + "\n"
+            );*/
+            System.out.printf("\tPorcentaje de utilizacion en Etapa %d: %.2f\n", i, servidor.getPorcentajeDeUtilizacion(acum)*100 ); 
+        }
+        double ax = (this.clientesConEspera / acum);
+        this.probEsperar = (this.clientesConEspera / acum);
         System.out.println("Probabilidad de Esperar: " + this.probEsperar);
-        this.promCola = this.totalTiemposEnCola/acum;
+        this.promCola = this.totalTiemposEnCola / acum;
         System.out.println("Tiempo Promedio Cliente en Cola: " + this.promCola);
-        ax = (this.clientesConEspera>0) ? (this.totalTiemposEnCola/this.clientesConEspera) :0;
+        ax = (this.clientesConEspera > 0) ? (this.totalTiemposEnCola / this.clientesConEspera) : 0;
         System.out.println("Tiempo de Espera de un Cliente que hace Cola: " + ax);
     }
 

@@ -527,7 +527,7 @@ public class DatosDeEntrada extends javax.swing.JFrame {
         for(Etapa etapa: sistema.etapas){
             //System.out.println("Tiempo promedio de servicio en la etapa " + etapa.identificador + " = " + etapa .getTiempoPromedioEnServicio());
             //etapa.getTiempoPromedioEnCola();
-            System.out.println ("CANT CLIENTES SIN ESPERA" + etapa.clientesSinEspera);
+            System.out.println ("CANT CLIENTES SIN ESPERA " + etapa.clientesSinEspera);
         }
     }//GEN-LAST:event_botonGuardarActionPerformed
 

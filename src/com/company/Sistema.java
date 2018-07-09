@@ -126,6 +126,4 @@ public class Sistema {
             System.out.println(demandante.identificador + "- Tiempo de llegada: " + demandante.tiempoDeLlegada);
         }
     }
-
-
 }
