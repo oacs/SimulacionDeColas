@@ -515,7 +515,7 @@ public class DatosDeEntrada extends javax.swing.JFrame {
         System.out.println(sistema.clientesEnSistema+sistema.demandantes.size());
         for (int i = 0; !sistema.end; i++) {
             // System.out.println("//////////////////////////////////////////////////////////////");
-            sistema.mostrarDemandantes();
+            // sistema.mostrarDemandantes();
             sistema.ejecutarTransicion();
             // System.out.println("\n Realizando la Iteracion "+ i+" tiempo "+sistema.tiempoActual+" \n\n");
             // sistema.etapas.get(0).mostrarEtapa();
@@ -525,10 +525,11 @@ public class DatosDeEntrada extends javax.swing.JFrame {
 
         }
         for(Etapa etapa: sistema.etapas){
-            //System.out.println("Tiempo promedio de servicio en la etapa " + etapa.identificador + " = " + etapa .getTiempoPromedioEnServicio());
-            //etapa.getTiempoPromedioEnCola();
-            System.out.println ("CANT CLIENTES SIN ESPERA" + etapa.clientesSinEspera);
+            // System.out.println("Tiempo promedio de servicio en la etapa " + etapa.identificador + " = " + etapa .getTiempoPromedioEnServicio());
+            // etapa.getTiempoPromedioEnCola();
+            System.out.println ("CANT CLIENTES SIN ESPERA " + etapa.clientesSinEspera);
         }
+        sistema.estadisticas();
     }//GEN-LAST:event_botonGuardarActionPerformed
 
     private void botonEliminarEstacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarEstacionActionPerformed
