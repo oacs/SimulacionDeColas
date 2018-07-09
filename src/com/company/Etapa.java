@@ -36,6 +36,8 @@ public class Etapa {
     public int clientesConEspera = 0;
     public double probEsperar; // Probabilidad de esperar.
     public double promCola; // Promedio de un cliente en cola.
+    public int totalCantidadClientesEspera = 0;
+    public int totalCantidadClientesServicio = 0;
 
 
     /** Constructor de Etapa
@@ -100,6 +102,7 @@ public class Etapa {
     private void aumentarTiemposDeCola(int tiempoTranscurrido) {
         for (Cliente cliente: clientesEnCola) {
             cliente.tiempoEnCola += tiempoTranscurrido;
+            totalCantidadClientesEspera += tiempoTranscurrido * clientesEnCola.size();
         }
     }
 
@@ -113,6 +116,7 @@ public class Etapa {
             if (servidor.clienteEnServicio != null) {
                 servidor.clienteEnServicio.tiempoEnServicio -= tiempoTranscurrido;
                 totalTiemposEnServicio += tiempoTranscurrido;
+                totalCantidadClientesServicio += tiempoTranscurrido * servidoresOcupados();
             }
 
         }
@@ -248,7 +252,7 @@ public class Etapa {
     }
 
     public float[] getPorcentajeDeUtilizacionEtapas() {
-        float[] porcentajeUtilizacionEtapas = new int[this.cantidadTotalDeServidores];
+        float[] porcentajeUtilizacionEtapas = new float[this.cantidadTotalDeServidores];
         int i = 0;
         for (Servidor servidor: this.clientesEnServicio) {
             porcentajeUtilizacionEtapas[i++] = servidor.getPorcentajeDeUtilizacion(this.getClientesAtendidos());
@@ -285,7 +289,7 @@ public class Etapa {
            /* System.out.println(
                 "\tPorcentaje de utilizacion en Etapa "+ i + ": " + String.format("%2.f", servidor.getPorcentajeDeUtilizacion(acum)*100) + "\n"
             );*/
-            System.out.printf("\tPorcentaje de utilizacion en Etapa %d: %.2f\n", i, servidor.getPorcentajeDeUtilizacion(acum)*100 ); 
+            System.out.printf("\tPorcentaje de utilizacion en Etapa %d: %.2f\n", i, servidor.getPorcentajeDeUtilizacion((float)acum)*100 );
         }
         double ax = (this.clientesConEspera / acum);
         this.probEsperar = (this.clientesConEspera / acum);

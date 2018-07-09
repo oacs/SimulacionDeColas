@@ -6,7 +6,7 @@ public class Servidor {
     public Cliente clienteEnServicio;      // Clientes que se encuentran en algun servidor
     public int clientesAtendidos;           // Clientes que ya fueron atendidos
 
-    public double getPorcentajeDeUtilizacion ( double acum ) {
+    public float getPorcentajeDeUtilizacion ( float acum ) {
         return (this.clientesAtendidos/acum);
     }
 }
