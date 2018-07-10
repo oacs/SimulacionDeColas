@@ -12,8 +12,7 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
     private DefaultTableModel modeloEstadisticas;
     private static int contadorEventos; 
     private static int cantidadEstaciones;
-    private ArrayList<ArrayList<Float[]>> estadisticasAlmacenadas;
-    private ArrayList<Float[]> element; 
+    private ArrayList<Float[]> estadisticasAlmacenadas; 
     Float[] ax = {1F, 2F, 3F, 4F, 5F, 6F, 7F};
     
     public ResultadosSimulacion( int cantidadEstaciones) {
@@ -23,15 +22,11 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
         tablaEventos.setModel(modeloEventos);
         modeloEstadisticas = new DefaultTableModel( new Object [][] {},new String [] {"Cant. que no esperan","Clientes no atendidos","Prob. de Esperar","Promedio Clientes(Cola)","Promedio Clientes(Sistema)","Promedio Tiempo (Cola)","Promedio tiempo despues de cierre"});
         tablaEstadisticas.setModel(modeloEstadisticas);
-        estadisticasAlmacenadas = new ArrayList<ArrayList<Float[]>>(); 
-        element = new ArrayList<Float[]>();  
+        estadisticasAlmacenadas = new ArrayList<Float[]>(); 
         inicializarComboBox(cantidadEstaciones);
         // ingresarEstadistica(2,0,0,0,0,0,0);
         for (int i=0; i<cantidadEstaciones; i++){    
-            /*for (int j=0; j<7; j++){
-                element.add(ax);                
-            }
-            estadisticasAlmacenadas.add(element);    */
+            estadisticasAlmacenadas.add(ax);    
             for (int j=0; j<7; j++){
                 actualizarEstadisticas (i, j, i+1F, i+2F, i+3F, i+4F, i+5F, i+6F, i+7F); 
             }
@@ -82,26 +77,15 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
     */
     public void actualizarEstadisticas(int target, int day, float arg1,float arg2,float arg3, float arg4, float arg5,float arg6,float arg7){ 
         // target = 0 Sistema ; 1 <= target Estacion
-        Float[] auxiliar = {arg1,arg2,arg3,arg4,arg5,arg6,arg7};
-        if (estadisticasAlmacenadas.size() > target)
-            if(estadisticasAlmacenadas.get(target).size() > day)
-                estadisticasAlmacenadas.get(target).set(day, auxiliar);
-            else
-                estadisticasAlmacenadas.get(target).add(day, auxiliar);
-        else {
-            ArrayList<Float[]> diaNuevo= new ArrayList<Float[]>();
-            diaNuevo.add(auxiliar);
-            estadisticasAlmacenadas.add(diaNuevo);
-        }
+        Float[] element = {arg1,arg2,arg3,arg4,arg5,arg6,arg7};
+        estadisticasAlmacenadas.add(target,element);
     }
     
     public void rellenarTablaEstadisticas(int target){
         DefaultTableModel aux = (DefaultTableModel) tablaEstadisticas.getModel();
-        ArrayList<Float[]> ax = estadisticasAlmacenadas.get(target);
-        Float[] estadisticas;
+        Float[] estadisticas = estadisticasAlmacenadas.get(target);
         limpiarTablaEstadisticas();
         for (int i=0; i<7; i++){ 
-            estadisticas = ax.get(i);
             aux.addRow(new Object[]{estadisticas[0],estadisticas[1],estadisticas[2],estadisticas[3],estadisticas[4],estadisticas[5],estadisticas[6]});            
         }
     }
