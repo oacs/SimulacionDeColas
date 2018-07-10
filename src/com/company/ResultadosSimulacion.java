@@ -13,8 +13,8 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
     private static int contadorEventos; 
     private static int cantidadEstaciones;
     private ArrayList<Integer> cantidadServidores;
-    private ArrayList<Float[]> estadisticasAlmacenadas; 
-    private ArrayList<Float[]> porcentajesAlmacenados;
+    private ArrayList<ArrayList<Float[]>> estadisticasAlmacenadas;
+    private ArrayList<Float[][]> porcentajesAlmacenados;
     Float[] ax = {1F, 2F, 3F, 4F, 5F, 6F, 7F};
     
     public ResultadosSimulacion( int cantidadEstaciones, ArrayList<Integer> cantidadServidores) {
@@ -46,23 +46,31 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
         modeloPorcentajes = new DefaultTableModel( new Object [][] {},new String [] {"Porcentaje de Utilización"});
         tablaEstadisticas.setModel(modeloEstadisticas);
         tablaEstadisticas1.setModel(modeloPorcentajes);
-        estadisticasAlmacenadas = new ArrayList<Float[]>(); 
-        porcentajesAlmacenados = new ArrayList<Float[]>(); 
+        estadisticasAlmacenadas = new ArrayList<ArrayList<Float[]>>();
+        porcentajesAlmacenados = new ArrayList<Float[][]>();
+        this.cantidadServidores = cantidadServidores;
         inicializarComboBox(cantidadEstaciones);
         inicializarComboBox1(cantidadServidores);
         // ingresarEstadistica(2,0,0,0,0,0,0);
-        for (int i=0; i<cantidadEstaciones; i++){    
-            estadisticasAlmacenadas.add(ax);
+        for (int i=0; i<cantidadEstaciones; i++){
             for (int j=0; j<7; j++){
-                actualizarEstadisticas (i, j, i+1F, i+2F, i+3F, i+4F, i+5F, i+6F, i+7F); 
+                actualizarEstadisticas (i, j, i+1F, i+2F, i+3F, i+4F, i+5F, i+6F, i+7F, 0, 0);
             }
-        }
-        int k =0;
-        for (Integer i: cantidadServidores){
-            for (int j=1; j<=i; j++){
-                porcentajesAlmacenados.add(ax);
-                actualizarPorcentajes (k, j-1, k+j+2F); 
-                k++;
+        }/*
+        for (int i=0; i<cantidadEstaciones; i++){
+            for (Integer ax1: cantidadServidores){
+                this.porcentajesAlmacenados.add(new Float[7][7]);
+                for (int j=0; j<7; j++){
+                    this.porcentajesAlmacenados.get(i)[ax1][j] = 0F;
+                }
+            }
+        }*/
+        for (int i=0; i<cantidadEstaciones; i++){
+            this.porcentajesAlmacenados.add(new Float[this.cantidadServidores.get(i)][7]);
+            for (int ax1 = 0; ax1< this.cantidadServidores.get(i); ax1++){
+                for (int j=0; j<7; j++){
+                    this.porcentajesAlmacenados.get(i)[ax1][j] = 0F;
+                }
             }
         }
     }
@@ -103,11 +111,18 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
     }
     
     public void inicializarComboBox1(ArrayList<Integer> cantidad){
+        /*
         int k = 1;
         for (Integer i: cantidad){
             for (int j=1; j<=i; j++){
-                comboBox1.insertItemAt("Estacion "+k+" Servidor "+j, k-1);    
-                k++;
+                comboBox1.insertItemAt("Estacion "+k+" Servidor "+j, k-1);
+            }
+            k++;
+        }*/
+        int k = 0;
+        for (int i=0; i<cantidad.size(); i++){
+            for (int ax1 = 0; ax1< cantidad.get(i); ax1++){
+                comboBox1.insertItemAt("Estacion "+(i+1)+" Servidor "+(ax1+1), k++);
             }
         }
     }
@@ -124,6 +139,7 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
     public void actualizarEstadisticas(int target, int day, float cantidadSinEsperar, float cantidadNoAtendidos, float probEspera,
                                        float promedioCola, float promedioSistema, float promedioTiempoEnCola,float promedioTiempoEnSistema, float promedioTiempoEspera,
                                        float tiempoAdicional) {
+
         // target = 0 Sistema ; 1 <= target Estacion
         Float[] auxiliar = {
                 cantidadSinEsperar,
@@ -146,33 +162,24 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
             diaNuevo.add(auxiliar);
             estadisticasAlmacenadas.add(diaNuevo);
         }
-        System.err.println(
-                cantidadSinEsperar + " " +
-                cantidadNoAtendidos + " " +
-                probEspera + " " +
-                promedioCola + " " +
-                promedioSistema + " " +
-                promedioTiempoEnCola + " " +
-                promedioTiempoEnSistema + " " +
-                promedioTiempoEspera + " " +
-                tiempoAdicional);
     }
     
-    public void actualizarPorcentajes(int target, int servidor, float valor){ 
+    public void actualizarPorcentajes(int target, int servidor, int dia, float valor){
         // target = 0 Sistema ; 1 <= target Estacion
-        Float[] aux = porcentajesAlmacenados.get(target);
-        aux[servidor] = valor;
-        porcentajesAlmacenados.add(target,aux);
+        this.porcentajesAlmacenados.get(target)[servidor][dia] = valor;
+        //System.err.println(valor);
+        /*Float [] aux = this.porcentajesAlmacenados.get(target);
+        aux[servidor]=valor;
+        // this.porcentajesAlmacenados.get(target*5+servidor);
+        this.porcentajesAlmacenados.get(target)[dia]=valor;*/
     }
-    
-    
-    public void rellenarTablaEstadisticas(int target){
+
 
     public void rellenarTablaEstadisticas(int target) {
         DefaultTableModel aux = (DefaultTableModel) tablaEstadisticas.getModel();
         ArrayList < Float[] > ax = estadisticasAlmacenadas.get(target);
         Float[] estadisticas;
-        limpiarTablaEstadisticas();
+        limpiarTablaEstadisticas(1);
         for (int i = 0; i < 7; i++) {
             estadisticas = ax.get(i);
             aux.addRow(new Object[] {
@@ -183,10 +190,26 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
     
     public void rellenarTablaEstadisticas1(int target){
         DefaultTableModel aux = (DefaultTableModel) tablaEstadisticas1.getModel();
-        Float[] estadisticas = porcentajesAlmacenados.get(target);
+        Float ax2;
+        /*Float[] ax = porcentajesAlmacenados.get(target);
+        for (int i=0; i<ax.length; i++){
+            aux.addRow(new Object[]{ax[i]});
+        }*/
+        /*for (int i=0; i<cantidadEstaciones; i++){
+            for (Integer ax1: cantidadServidores){
+                // this.porcentajesAlmacenados.add(new Float[ax1][7]);
+                for (int j=0; j<7; j++){
+                    ax2 = this.porcentajesAlmacenados.get(i)[ax1][j];
+                    aux.addRow(new Object[]{ax2});
+                }
+            }
+        }*/
         limpiarTablaEstadisticas(2);
-        for (int i=0; i<7; i++){ 
-            aux.addRow(new Object[]{estadisticas[0],estadisticas[1],estadisticas[2],estadisticas[3],estadisticas[4],estadisticas[5],estadisticas[6]});            
+        for (int ax1 = 0; ax1< this.cantidadServidores.get(target); ax1++) {
+            for (int j = 0; j < 7; j++) {
+                ax2 = this.porcentajesAlmacenados.get(target)[ax1][j];
+                aux.addRow(new Object[]{ax2});
+            }
         }
     }
     
@@ -200,9 +223,9 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
         }
         int ax = aux.getRowCount()-1;
         if (ax != 0){
-        for (int i=ax; i>=0; i--){
-            aux.removeRow(aux.getRowCount()-1);
-        }            
+            for (int i=ax; i>=0; i--){
+                aux.removeRow(aux.getRowCount()-1);
+            }
         }
     }
 

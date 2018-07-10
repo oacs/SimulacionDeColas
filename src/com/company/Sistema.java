@@ -32,8 +32,11 @@ public class Sistema {
 
     public Sistema(int capacidadDeClientes, ArrayList < Etapa > etapas, int cantidadClientes, ArrayList < Integer > minutos, ArrayList < Float > probabilidades, int tiempoCierre) {
         Servidores = new ArrayList<Integer>();
-        for (int i = 0; i<etapas.size(); i++){
+        /*for (int i = 0; i<etapas.size(); i++){
             Servidores.add(7);
+        }*/
+        for (Etapa etapa: etapas ) {
+            Servidores.add(etapa.cantidadTotalDeServidores);
         }
         this.resultadosSimulacion = new ResultadosSimulacion(etapas.size(), Servidores);
         this.capacidadDeClientes = capacidadDeClientes;
@@ -250,11 +253,17 @@ public class Sistema {
         this.resultadosSimulacion.actualizarEstadisticas(0, dia, getClientesSinEspera(), clientesPerdidos, getProbabilidadDeEsperar(), getTiempoPromedioEnCola(), (this.getTiempoPromedioEnCola() + this.getTiempoPromedioEnSistema()), promedioEnCola,  (promedioEnCola + promedioEnServicio), this.getTiempoPromedioClienteHaceCola(), (this.tiempoActual - this.tiempoCierre));
         int i = 1;
         for( Etapa etapa: this.etapas) {
-            this.resultadosSimulacion.actualizarEstadisticas(i++, dia,
+            this.resultadosSimulacion.actualizarEstadisticas(i, dia,
                     etapa.clientesSinEspera, 0, etapa.getProbabilidadDeEsperar(),
                     etapa.getTiempoPromedioEnCola(), (etapa.getTiempoPromedioEnCola() + etapa.getTiempoPromedioEnServicio()),
                     ((float)(etapa.totalCantidadClientesEspera) / ((float)(this.tiempoActual))),  (((float)(etapa.totalCantidadClientesEspera) / ((float)(this.tiempoActual))) + ((float)(etapa.totalCantidadClientesServicio) / ((float)(this.tiempoActual)))), etapa.getTiempoPromedioClienteHaceCola(),
                     (this.tiempoActual - this.tiempoCierre));
+            float [] buffer  = etapa.getPorcentajeDeUtilizacionEtapas();
+            for (int j = 0; j < buffer.length; j++) {
+                // System.err.println(buffer[j]);
+                this.resultadosSimulacion.actualizarPorcentajes(i-1, j, this.dia, buffer[j]);
+            }
+            i++;
         }
     }
 }
