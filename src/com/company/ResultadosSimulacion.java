@@ -1,4 +1,3 @@
-
 package com.company;
 
 import java.awt.event.ItemEvent;
@@ -10,49 +9,78 @@ import javax.swing.table.DefaultTableModel;
 public class ResultadosSimulacion extends javax.swing.JFrame {
     private DefaultTableModel modeloEventos;
     private DefaultTableModel modeloEstadisticas;
-    private static int contadorEventos; 
+    private static int contadorEventos;
     private static int cantidadEstaciones;
-    private ArrayList<ArrayList<Float[]>> estadisticasAlmacenadas;
-    private ArrayList<Float[]> element; 
-    Float[] ax = {1F, 2F, 3F, 4F, 5F, 6F, 7F};
-    
-    public ResultadosSimulacion( int cantidadEstaciones) {
+    private ArrayList < ArrayList < Float[] >> estadisticasAlmacenadas;
+    private ArrayList < Float[] > element;
+    Float[] ax = {
+        1F,
+        2F,
+        3F,
+        4F,
+        5F,
+        6F,
+        7F,
+            8f, 9F
+    };
+
+    public ResultadosSimulacion(int cantidadEstaciones) {
         initComponents();
         contadorEventos = 0;
-        modeloEventos = new DefaultTableModel( new Object [][] {},new String [] {"Dia","N° Evento", "Tipo de Evento","ID Cliente","TM","SS","WL","AT","DT"});
+        modeloEventos = new DefaultTableModel(new Object[][] {}, new String[] {
+            "Dia",
+            "N° Evento",
+            "Tipo de Evento",
+            "ID Cliente",
+            "TM",
+            "SS",
+            "WL",
+            "AT",
+            "DT"
+        });
         tablaEventos.setModel(modeloEventos);
-        modeloEstadisticas = new DefaultTableModel( new Object [][] {},new String [] {"Cant. que no esperan","Clientes no atendidos","Prob. de Esperar","Promedio Clientes(Cola)","Promedio Clientes(Sistema)","Promedio Tiempo (Cola)","Promedio tiempo despues de cierre"});
+        modeloEstadisticas = new DefaultTableModel(new Object[][] {}, new String[] {
+            "Cant. que no esperan",
+            "Clientes no atendidos",
+            "Prob. de Esperar",
+            "Promedio Clientes(Cola)",
+            "Promedio Clientes(Sistema)",
+            "Tiempo Promedio (Cola)",
+            "Tiempo Promedio (Sistema)",
+            "Tiempo Promedio con espera",
+            "Promedio tiempo despues de cierre"
+        });
         tablaEstadisticas.setModel(modeloEstadisticas);
-        estadisticasAlmacenadas = new ArrayList<ArrayList<Float[]>>(); 
-        element = new ArrayList<Float[]>();  
+        estadisticasAlmacenadas = new ArrayList < ArrayList < Float[] >> ();
+        element = new ArrayList < Float[] > ();
         inicializarComboBox(cantidadEstaciones);
         // ingresarEstadistica(2,0,0,0,0,0,0);
-        for (int i=0; i<cantidadEstaciones; i++){    
+        for (int i = 0; i < cantidadEstaciones; i++) {
             /*for (int j=0; j<7; j++){
-                element.add(ax);                
+                element.add(ax);
             }
             estadisticasAlmacenadas.add(element);    */
-            for (int j=0; j<7; j++){
-                actualizarEstadisticas (i, j, i+1F, i+2F, i+3F, i+4F, i+5F, i+6F, i+7F); 
+            for (int j = 0; j < 7; j++) {
+                actualizarEstadisticas(i, j, 0, 0, 0, 0, 0, 0, 0, 0, 0);
             }
         }
     }
-    
-    public void ingresarEvento(int dia,String tipoEvento,int idCliente,int tm,int ss, int wl,String at,String dt){
+
+    public void ingresarEvento(int dia, String tipoEvento, int idCliente, int tm, int ss, int wl, String at, String dt) {
         DefaultTableModel aux = (DefaultTableModel) tablaEventos.getModel();
-        if ( Integer.parseInt(at) > 99999) {
+        if (Integer.parseInt(at) > 99999) {
             at = "99999";
         }
-        if ( Integer.parseInt(dt) > 99999) {
+        if (Integer.parseInt(dt) > 99999) {
             dt = "99999";
         }
-        aux.addRow(new Object[]{dia,contadorEventos,tipoEvento,idCliente,tm,ss,wl,at,dt});
+        aux.addRow(new Object[] { dia, contadorEventos, tipoEvento, idCliente, tm, ss, wl, at, dt });
         contadorEventos++;
     }
 
     public void ingresarEstadistica(float cantidadSinEsperar, float cantidadNoAtendidos, float probEspera,
-                                    float promedioCola, float promedioSistema, float promedioTiempoEnCola,
-                                    float promedioTiempo){
+        float promedioCola, float promedioSistema, float promedioTiempoEnCola,
+        float promedioTiempo) {
         Float[] auxiliar = new Float[7];
         auxiliar[0] = cantidadSinEsperar;
         auxiliar[1] = cantidadNoAtendidos;
@@ -64,13 +92,15 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
         DefaultTableModel aux = (DefaultTableModel) tablaEstadisticas.getModel();
         aux.addRow(auxiliar);
     }
-    
-    public void inicializarComboBox(int cantidad){
+
+    public void inicializarComboBox(int cantidad) {
         cantidadEstaciones = cantidad;
-        for(int i = 1 ; i < cantidadEstaciones+1 ; i++)
-            comboBox.insertItemAt("Estacion "+i, i-1);
+
+            comboBox.insertItemAt("Sistema ", 0);
+            for (int i = 1; i < cantidadEstaciones + 1; i++)
+                comboBox.insertItemAt("Estacion " + i, i);
     }
-    
+
     /* 
     arg1: Cantidad de clientes que no esperan
     arg2: Cantidad de clientes que se van sin ser atendidos
@@ -80,42 +110,66 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
     arg6: Tiempo promedio de espera del cliente que hace cola
     arg7: Tiempo promedio adicional que trabaja el comedor despues de cerrar
     */
-    public void actualizarEstadisticas(int target, int day, float arg1,float arg2,float arg3, float arg4, float arg5,float arg6,float arg7){ 
+    public void actualizarEstadisticas(int target, int day, float cantidadSinEsperar, float cantidadNoAtendidos, float probEspera,
+                                       float promedioCola, float promedioSistema, float promedioTiempoEnCola,float promedioTiempoEnSistema, float promedioTiempoEspera,
+                                       float tiempoAdicional) {
         // target = 0 Sistema ; 1 <= target Estacion
-        Float[] auxiliar = {arg1,arg2,arg3,arg4,arg5,arg6,arg7};
+        Float[] auxiliar = {
+                cantidadSinEsperar,
+                cantidadNoAtendidos,
+                probEspera,
+                promedioCola,
+                promedioSistema,
+                promedioTiempoEnCola,
+                promedioTiempoEnSistema,
+                promedioTiempoEspera,
+                tiempoAdicional
+        };
         if (estadisticasAlmacenadas.size() > target)
-            if(estadisticasAlmacenadas.get(target).size() > day)
+            if (estadisticasAlmacenadas.get(target).size() > day)
                 estadisticasAlmacenadas.get(target).set(day, auxiliar);
             else
                 estadisticasAlmacenadas.get(target).add(day, auxiliar);
         else {
-            ArrayList<Float[]> diaNuevo= new ArrayList<Float[]>();
+            ArrayList < Float[] > diaNuevo = new ArrayList < Float[] > ();
             diaNuevo.add(auxiliar);
             estadisticasAlmacenadas.add(diaNuevo);
         }
+        System.err.println(
+                cantidadSinEsperar + " " +
+                cantidadNoAtendidos + " " +
+                probEspera + " " +
+                promedioCola + " " +
+                promedioSistema + " " +
+                promedioTiempoEnCola + " " +
+                promedioTiempoEnSistema + " " +
+                promedioTiempoEspera + " " +
+                tiempoAdicional);
     }
-    
-    public void rellenarTablaEstadisticas(int target){
+
+    public void rellenarTablaEstadisticas(int target) {
         DefaultTableModel aux = (DefaultTableModel) tablaEstadisticas.getModel();
-        ArrayList<Float[]> ax = estadisticasAlmacenadas.get(target);
+        ArrayList < Float[] > ax = estadisticasAlmacenadas.get(target);
         Float[] estadisticas;
         limpiarTablaEstadisticas();
-        for (int i=0; i<7; i++){ 
+        for (int i = 0; i < 7; i++) {
             estadisticas = ax.get(i);
-            aux.addRow(new Object[]{estadisticas[0],estadisticas[1],estadisticas[2],estadisticas[3],estadisticas[4],estadisticas[5],estadisticas[6]});            
+            aux.addRow(new Object[] {
+                estadisticas[0], estadisticas[1], estadisticas[2], estadisticas[3], estadisticas[4], estadisticas[5], estadisticas[6], estadisticas[7], estadisticas[8]
+            });
         }
     }
-    
-    public void limpiarTablaEstadisticas(){
+
+    public void limpiarTablaEstadisticas() {
         DefaultTableModel aux = (DefaultTableModel) tablaEstadisticas.getModel();
-        int ax = aux.getRowCount()-1;
-        if (ax != 0){
-        for (int i=ax; i>=0; i--){
-            aux.removeRow(aux.getRowCount()-1);
-        }            
+        int ax = aux.getRowCount() - 1;
+        if (ax != 0) {
+            for (int i = ax; i >= 0; i--) {
+                aux.removeRow(aux.getRowCount() - 1);
+            }
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -127,7 +181,7 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaEstadisticas = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
-        comboBox = new javax.swing.JComboBox<>();
+        comboBox = new javax.swing.JComboBox < > ();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -139,27 +193,67 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
         jLabel1.setText("Resultados de la simulación");
 
         tablaEventos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+            new Object[][] {
+                {
+                    null,
+                    null,
+                    null,
+                    null
+                }, {
+                    null,
+                    null,
+                    null,
+                    null
+                }, {
+                    null,
+                    null,
+                    null,
+                    null
+                }, {
+                    null,
+                    null,
+                    null,
+                    null
+                }
             },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+            new String[] {
+                "Title 1",
+                "Title 2",
+                "Title 3",
+                "Title 4"
             }
         ));
         jScrollPane1.setViewportView(tablaEventos);
 
         tablaEstadisticas.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+            new Object[][] {
+                {
+                    null,
+                    null,
+                    null,
+                    null
+                }, {
+                    null,
+                    null,
+                    null,
+                    null
+                }, {
+                    null,
+                    null,
+                    null,
+                    null
+                }, {
+                    null,
+                    null,
+                    null,
+                    null
+                }
             },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+            new String[] {
+                "Title 1",
+                "Title 2",
+                "Title 3",
+                "Title 4"
             }
         ));
         jScrollPane2.setViewportView(tablaEstadisticas);
@@ -229,18 +323,18 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    } // </editor-fold>//GEN-END:initComponents
 
-    private void comboBoxItemStateChanged(ItemEvent evt) {//GEN-FIRST:event_comboBoxItemStateChanged
+    private void comboBoxItemStateChanged(ItemEvent evt) { //GEN-FIRST:event_comboBoxItemStateChanged
 
-        if(evt.getStateChange() == ItemEvent.SELECTED)
+        if (evt.getStateChange() == ItemEvent.SELECTED)
             rellenarTablaEstadisticas(comboBox.getSelectedIndex());
-            // System.out.println ('AQUIIIII ESTA LO DEL COMBOBOXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" + comboBox.getSelectedIndex());
-    }//GEN-LAST:event_comboBoxItemStateChanged
+        // System.out.println ('AQUIIIII ESTA LO DEL COMBOBOXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" + comboBox.getSelectedIndex());
+    } //GEN-LAST:event_comboBoxItemStateChanged
 
-    private void comboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxActionPerformed
+    private void comboBoxActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_comboBoxActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_comboBoxActionPerformed
+    } //GEN-LAST:event_comboBoxActionPerformed
 
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -248,7 +342,7 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            for (javax.swing.UIManager.LookAndFeelInfo info: javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
@@ -270,11 +364,11 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
                 new ResultadosSimulacion(6).setVisible(true);
             }
         });
-    
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> comboBox;
+    private javax.swing.JComboBox < String > comboBox;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

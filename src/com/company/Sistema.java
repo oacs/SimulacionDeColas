@@ -42,7 +42,7 @@ public class Sistema {
         dia = 0;
         this.tiempoCierre = tiempoCierre;
         inicializacion();
-  }
+    }
 
     public void inicializacion() {
         this.clientesPerdidos = 0;
@@ -54,7 +54,7 @@ public class Sistema {
 
         /* SE HACE LLAMADA A LA FUNCION PARA INGRESAR UN ROW */
         // this.resultadosSimulacion.ingresarEstadistica (0,0, 5, 6, 9, 3, 9);
-        this.resultadosSimulacion.ingresarEvento(dia,"Inicializacion del Sistema", 0, this.tiempoActual, 0, 0, this.tiempoActual + at + "", this.tiempoActual + dt + "");
+        this.resultadosSimulacion.ingresarEvento(dia, "Inicializacion del Sistema", 0, this.tiempoActual, 0, 0, this.tiempoActual + at + "", this.tiempoActual + dt + "");
     }
     /** calcularTiempoMenorEtapas - busca el tiempo menor para un proximo evento de salida
      *
@@ -126,12 +126,12 @@ public class Sistema {
                 } else {
                     // Evento salida de una etapa
                     if (this.capacidadDeClientes > (this.etapas.get(etapa.identificador).clientesEnCola.size() + this.etapas.get(etapa.identificador).servidoresOcupados())) {
-                        this.resultadosSimulacion.ingresarEvento(dia,"Salida de etapa " + etapa.identificador, cliente.identificador, this.tiempoActual, etapa.servidoresOcupados(), etapa.clientesEnCola.size(), this.tiempoActual + at + "", this.tiempoActual + dt + "");
+                        this.resultadosSimulacion.ingresarEvento(dia, "Salida de etapa " + etapa.identificador, cliente.identificador, this.tiempoActual, etapa.servidoresOcupados(), etapa.clientesEnCola.size(), this.tiempoActual + at + "", this.tiempoActual + dt + "");
                         this.etapas.get(etapa.identificador).agregarCliente(new Cliente(cliente.identificador, this.generadorTiemposLlegada.obtenerTiempo()));
                     } else {
                         System.err.println("El sistema colapso");
                         // Todo evento de sistema colapsado
-                        this.end =  true;
+                        this.end = true;
                         return;
                     }
                 }
@@ -187,13 +187,20 @@ public class Sistema {
         for (Etapa etapa: this.etapas) {
             clientesQueEsperan += etapa.clientesConEspera;
         }
-        return clientesQueEsperan / this.getClientesAtendidos();
+        return ((float) clientesQueEsperan / (float) this.getClientesAtendidos());
     }
 
     public float getTiempoPromedioEnCola() {
         float promedioEnColaEtapas = 0;
         for (Etapa etapa: this.etapas) {
             promedioEnColaEtapas += etapa.getTiempoPromedioEnCola();
+        }
+        return promedioEnColaEtapas / this.etapas.size();
+    }
+    public float getTiempoPromedioEnSistema() {
+        float promedioEnColaEtapas = 0;
+        for (Etapa etapa: this.etapas) {
+            promedioEnColaEtapas += etapa.getTiempoPromedioEnServicio();
         }
         return promedioEnColaEtapas / this.etapas.size();
     }
@@ -207,7 +214,7 @@ public class Sistema {
     }
 
     public void estadisticas() {
-        if( this.tiempoActual < this.tiempoCierre) {
+        if (this.tiempoActual < this.tiempoCierre) {
             System.err.println("El sistema no logro mantenerse estable");
         }
         System.out.println("\nSistema: ");
@@ -220,16 +227,29 @@ public class Sistema {
         }
         System.out.println("Probabilidad de Esperar: " + this.getProbabilidadDeEsperar());
         System.out.println("Tiempo Promedio Cliente en Cola: " + this.getTiempoPromedioEnCola());
+        System.out.println("Tiempo Promedio Cliente en Cola: " + this.getTiempoPromedioEnSistema());
         System.out.println("Tiempo de Espera de un Cliente que hace Cola: " + this.getTiempoPromedioClienteHaceCola());
-
+        float promedioEnCola = 0;
+        float promedioEnServicio = 0;
         for (int i = 0; i < this.etapas.size(); i++) {
             System.out.println("Promedio de clientes en cola en Etapa " + (i + 1) + ":  " + ((float)(this.etapas.get(i).totalCantidadClientesEspera) / ((float)(this.tiempoActual))));
             //System.out.println("Promedio de clientes en cola en Etapa " + i + ":" + this.etapas.get(i).totalCantidadClientesEspera + "/" +this.tiempoActual );
+            promedioEnCola += ((float)(this.etapas.get(i).totalCantidadClientesEspera) / ((float)(this.tiempoActual)));
         }
         for (int i = 0; i < this.etapas.size(); i++) {
             System.out.println("Promedio de clientes en servicio en Etapa " + (i + 1) + ":  " + ((float)(this.etapas.get(i).totalCantidadClientesServicio) / ((float)(this.tiempoActual))));
             //System.out.println("Promedio de clientes en cola en Etapa " + i + ":" + this.etapas.get(i).totalCantidadClientesEspera + "/" +this.tiempoActual );
+            promedioEnServicio += ((float)(this.etapas.get(i).totalCantidadClientesServicio) / ((float)(this.tiempoActual)));
         }
         System.out.println("Clientes que se van sin ser atendidos: " + this.clientesPerdidos);
+        this.resultadosSimulacion.actualizarEstadisticas(0, dia, getClientesSinEspera(), clientesPerdidos, getProbabilidadDeEsperar(), getTiempoPromedioEnCola(), (this.getTiempoPromedioEnCola() + this.getTiempoPromedioEnSistema()), promedioEnCola,  (promedioEnCola + promedioEnServicio), this.getTiempoPromedioClienteHaceCola(), (this.tiempoActual - this.tiempoCierre));
+        int i = 1;
+        for( Etapa etapa: this.etapas) {
+            this.resultadosSimulacion.actualizarEstadisticas(i++, dia,
+                    etapa.clientesSinEspera, 0, etapa.getProbabilidadDeEsperar(),
+                    etapa.getTiempoPromedioEnCola(), (etapa.getTiempoPromedioEnCola() + etapa.getTiempoPromedioEnServicio()),
+                    ((float)(etapa.totalCantidadClientesEspera) / ((float)(this.tiempoActual))),  (((float)(etapa.totalCantidadClientesEspera) / ((float)(this.tiempoActual))) + ((float)(etapa.totalCantidadClientesServicio) / ((float)(this.tiempoActual)))), etapa.getTiempoPromedioClienteHaceCola(),
+                    (this.tiempoActual - this.tiempoCierre));
+        }
     }
 }

@@ -205,6 +205,10 @@ public class Etapa {
          return  tiempoPromedioEnCola;
      }*/
 
+     public float getTiempoPromedioEnServicio(){
+        return  (float)totalTiemposEnServicio/(float)(this.clientesConEspera+this.clientesSinEspera);
+    }
+
     public int servidoresDisponibles() {
         int contador = 0;
         for (Servidor servidor: this.clientesEnServicio) {
