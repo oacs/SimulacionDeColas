@@ -28,10 +28,10 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
         inicializarComboBox(cantidadEstaciones);
         // ingresarEstadistica(2,0,0,0,0,0,0);
         for (int i=0; i<cantidadEstaciones; i++){    
-            for (int j=0; j<7; j++){
+            /*for (int j=0; j<7; j++){
                 element.add(ax);                
             }
-            estadisticasAlmacenadas.add(element);    
+            estadisticasAlmacenadas.add(element);    */
             for (int j=0; j<7; j++){
                 actualizarEstadisticas (i, j, i+1F, i+2F, i+3F, i+4F, i+5F, i+6F, i+7F); 
             }
@@ -82,14 +82,17 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
     */
     public void actualizarEstadisticas(int target, int day, float arg1,float arg2,float arg3, float arg4, float arg5,float arg6,float arg7){ 
         // target = 0 Sistema ; 1 <= target Estacion
-        System.out.println ("TAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARRRRRRRRRRRRRRRRRRGGGGGGGGGGGGGGGGGGGGGGGGEEEEEEEEEEEET: "+target+day);
         Float[] auxiliar = {arg1,arg2,arg3,arg4,arg5,arg6,arg7};
-        for (int i=0; i<7; i++){
-            System.out.println ("TAAAAAAAAAAAAAAAGGGGGGGGGGGGGEEEEEEEEEEEET: "+auxiliar[i]);
+        if (estadisticasAlmacenadas.size() > target)
+            if(estadisticasAlmacenadas.get(target).size() > day)
+                estadisticasAlmacenadas.get(target).set(day, auxiliar);
+            else
+                estadisticasAlmacenadas.get(target).add(day, auxiliar);
+        else {
+            ArrayList<Float[]> diaNuevo= new ArrayList<Float[]>();
+            diaNuevo.add(auxiliar);
+            estadisticasAlmacenadas.add(diaNuevo);
         }
-        ArrayList<Float[]> ax = estadisticasAlmacenadas.get(target);
-        ax.set(day, auxiliar);
-        estadisticasAlmacenadas.set(target,ax);
     }
     
     public void rellenarTablaEstadisticas(int target){

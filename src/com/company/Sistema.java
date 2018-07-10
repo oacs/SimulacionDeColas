@@ -187,6 +187,8 @@ public class Sistema {
     }
 
     public void estadisticas() {
+        this.resultadosSimulacion.actualizarEstadisticas(0, 0, this.getClientesSinEspera(), 0,
+                this.getProbabilidadDeEsperar(), 0,0, this.getTiempoPromedioClienteHaceCola(), tiempoActual-tiempoCierre);
         System.out.println("\nSistema: ");
         System.out.println("Clientes Atendidos: " + this.getClientesAtendidos());
         System.out.println("Cantidad de Clientes que No Esperan: " + this.getClientesSinEspera());
