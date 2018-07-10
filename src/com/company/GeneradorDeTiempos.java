@@ -46,6 +46,7 @@ public class GeneradorDeTiempos {
         for ( Float probabilidadTiempo: probabilidades ){
             probabilidadTotal += probabilidadTiempo;
             if( probabilidadTotal > probabilidad){
+                System.out.println(probabilidad + " ---> " + minutos.get(indice));
                 return minutos.get(indice);
             }
             indice++;

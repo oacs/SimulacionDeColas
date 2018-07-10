@@ -25,7 +25,13 @@ public class Main {
         probabilidades2.add(0.5f);
         probabilidades2.add(0.3f);
         probabilidades2.add(0.2f);
-        etapas.add(new Etapa(50, 1,1, minutos, probabilidades));
+        System.out.println("Minutos        2, 4, 4");
+        System.out.println("Probabilidades 0.5, 0.3, 0.2");
+        GeneradorDeTiempos generador = new GeneradorDeTiempos(minutos, probabilidades);
+        for (int i = 0; i < 10; i++) {
+            generador.obtenerTiempo();
+        }
+        /*etapas.add(new Etapa(50, 1,1, minutos, probabilidades));
         etapas.add(new Etapa(50, 2,2, minutos, probabilidades2));
         Sistema sistema = new Sistema(50, etapas, 10, minutos, probabilidades, 40);
 
@@ -35,7 +41,7 @@ public class Main {
             System.out.println("\n Realizando la Iteracion "+ i+"\n \n");
             sistema.etapas.get(0).mostrarEtapa();
             sistema.etapas.get(1).mostrarEtapa();
-        }
+        }*/
 
 
     }
