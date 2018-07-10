@@ -27,10 +27,15 @@ public class Sistema {
     public boolean end;
     public int capacidadDeClientes;
     public int dia;
+    public ArrayList<Integer> Servidores;
 
 
     public Sistema(int capacidadDeClientes, ArrayList < Etapa > etapas, int cantidadClientes, ArrayList < Integer > minutos, ArrayList < Float > probabilidades, int tiempoCierre) {
-        this.resultadosSimulacion = new ResultadosSimulacion(etapas.size());
+        Servidores = new ArrayList<Integer>();
+        for (int i = 0; i<etapas.size(); i++){
+            Servidores.add(7);
+        }
+        this.resultadosSimulacion = new ResultadosSimulacion(etapas.size(), Servidores);
         this.capacidadDeClientes = capacidadDeClientes;
         this.resultadosSimulacion.setVisible(true);
         this.etapas = etapas;
