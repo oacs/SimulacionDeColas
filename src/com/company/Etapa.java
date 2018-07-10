@@ -59,7 +59,22 @@ public class Etapa {
         this.tiempoPromedioEnServicio = 0;
         this.totalTiemposEnCola = 0;
         this.totalTiemposEnServicio = 0;
+        this.clientesSinEspera = 0;
+        this.clientesConEspera = 0;
+        this.totalCantidadClientesEspera = 0;
+        this.totalCantidadClientesServicio = 0;
         this.generadorTiemposServicio = new GeneradorDeTiempos(minutos, probabilidades);
+    }
+
+    public void inicializar() {
+        this.tiempoPromedioEnCola = 0;
+        this.tiempoPromedioEnServicio = 0;
+        this.totalTiemposEnCola = 0;
+        this.totalTiemposEnServicio = 0;
+        this.clientesSinEspera = 0;
+        this.clientesConEspera = 0;
+        this.totalCantidadClientesEspera = 0;
+        this.totalCantidadClientesServicio = 0;
     }
 
     /**  calcularTiempoProximoEvento - Busca el menor tiempo restante para
@@ -267,7 +282,7 @@ public class Etapa {
     }
 
     public float getProbabilidadDeEsperar() {
-        return  (float)(this.clientesConEspera / this.getClientesAtendidos());
+        return  (float)((float)this.clientesConEspera / (float)this.getClientesAtendidos());
     }
 
     public float getTiempoPromedioEnCola() {

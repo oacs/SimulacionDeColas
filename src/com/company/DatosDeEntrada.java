@@ -417,7 +417,7 @@ public class DatosDeEntrada extends javax.swing.JFrame {
 
                 /* Capacidad del sistema */
                 if(checkCapacidad.isSelected()) 
-                    capacidadSistema = -1;
+                    capacidadSistema = 9999;
                 else 
                     if(!inputCapacidad.getText().isEmpty())
                         capacidadSistema = Integer.parseInt(inputCapacidad.getText());
@@ -617,9 +617,9 @@ public class DatosDeEntrada extends javax.swing.JFrame {
         aux.addRow(new Object[]{"4","3","0.5"});
         aux.addRow(new Object[]{"4","2","0.5"});
         aux = (DefaultTableModel) tablaTiemposLlegada.getModel();
-        aux.addRow(new Object[]{"1","0.5"});
-        aux.addRow(new Object[]{"1","0.3"});
-        aux.addRow(new Object[]{"1","0.2"});
+        aux.addRow(new Object[]{"3","0.5"});
+        aux.addRow(new Object[]{"2","0.3"});
+        aux.addRow(new Object[]{"4","0.2"});
         this.inputCapacidad.setText("20");
         /*aux.addRow(new Object[]{tablaEstaciones.getRowCount()+1,"1"});
         aux = (DefaultTableModel) tablaTiemposServicio.getModel();

@@ -59,7 +59,10 @@ public class Sistema {
         this.end = false;
         this.at = 0;
         this.dt = 99999;
-
+        for (Etapa etapa: this.etapas
+             ) {
+            etapa.inicializar();
+        }
         /* SE HACE LLAMADA A LA FUNCION PARA INGRESAR UN ROW */
         // this.resultadosSimulacion.ingresarEstadistica (0,0, 5, 6, 9, 3, 9);
         this.resultadosSimulacion.ingresarEvento(dia, "Inicializacion del Sistema", 0, this.tiempoActual, 0, 0, this.tiempoActual + at + "", this.tiempoActual + dt + "");
