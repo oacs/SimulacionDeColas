@@ -511,8 +511,9 @@ public class DatosDeEntrada extends javax.swing.JFrame {
             etapas.add(new Etapa(50, servidores, indice+1, minutos, probabilidades));
             indice++;
         }
-        Sistema sistema = new Sistema(50, etapas, this.capacidadSistema, this.dataTiemposLlegada, this.dataProbabilidadesTiemposLlegada, 500);
+        Sistema sistema = new Sistema(50, etapas, this.capacidadSistema, this.dataTiemposLlegada, this.dataProbabilidadesTiemposLlegada, 50);
         System.out.println(sistema.clientesEnSistema+sistema.demandantes.size());
+        for(int j = 0; j < 7; j++){
         for (int i = 0; !sistema.end; i++) {
             // System.out.println("//////////////////////////////////////////////////////////////");
             // sistema.mostrarDemandantes();
@@ -530,6 +531,9 @@ public class DatosDeEntrada extends javax.swing.JFrame {
             System.out.println ("CANT CLIENTES SIN ESPERA " + etapa.clientesSinEspera);
         }
         sistema.estadisticas();
+        sistema.dia++;
+        sistema.inicializacion();
+        }
     }//GEN-LAST:event_botonGuardarActionPerformed
 
     private void botonEliminarEstacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarEstacionActionPerformed

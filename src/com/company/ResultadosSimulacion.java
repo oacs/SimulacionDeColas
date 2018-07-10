@@ -19,7 +19,7 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
     public ResultadosSimulacion( int cantidadEstaciones) {
         initComponents();
         contadorEventos = 0;
-        modeloEventos = new DefaultTableModel( new Object [][] {},new String [] {"N° Evento", "Tipo de Evento","ID Cliente","TM","SS","WL","AT","DT"});
+        modeloEventos = new DefaultTableModel( new Object [][] {},new String [] {"Dia","N° Evento", "Tipo de Evento","ID Cliente","TM","SS","WL","AT","DT"});
         tablaEventos.setModel(modeloEventos);
         modeloEstadisticas = new DefaultTableModel( new Object [][] {},new String [] {"Cant. que no esperan","Clientes no atendidos","Prob. de Esperar","Promedio Clientes(Cola)","Promedio Clientes(Sistema)","Promedio Tiempo (Cola)","Promedio tiempo despues de cierre"});
         tablaEstadisticas.setModel(modeloEstadisticas);
@@ -38,7 +38,7 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
         }
     }
     
-    public void ingresarEvento(String tipoEvento,int idCliente,int tm,int ss, int wl,String at,String dt){
+    public void ingresarEvento(int dia,String tipoEvento,int idCliente,int tm,int ss, int wl,String at,String dt){
         DefaultTableModel aux = (DefaultTableModel) tablaEventos.getModel();
         if ( Integer.parseInt(at) > 99999) {
             at = "99999";
@@ -46,7 +46,7 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
         if ( Integer.parseInt(dt) > 99999) {
             dt = "99999";
         }
-        aux.addRow(new Object[]{contadorEventos,tipoEvento,idCliente,tm,ss,wl,at,dt});
+        aux.addRow(new Object[]{dia,contadorEventos,tipoEvento,idCliente,tm,ss,wl,at,dt});
         contadorEventos++;
     }
 

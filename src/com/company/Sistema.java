@@ -26,7 +26,7 @@ public class Sistema {
     public int at, dt;
     public boolean end;
     public int capacidadDeClientes;
-
+    public int dia;
 
 
     public Sistema(int capacidadDeClientes, ArrayList < Etapa > etapas, int cantidadClientes, ArrayList < Integer > minutos, ArrayList < Float > probabilidades, int tiempoCierre) {
@@ -39,18 +39,23 @@ public class Sistema {
         for (int i = 0; i < cantidadClientes; i++) {
             this.demandantes.add(new Cliente(i + 1, 0));
         }
+        dia = 0;
+        this.tiempoCierre = tiempoCierre;
+        inicializacion();
+  }
+
+    public void inicializacion() {
         this.clientesPerdidos = 0;
         this.tiempoActual = 0;
         this.clientesEnSistema = 0;
         this.end = false;
         this.at = 0;
         this.dt = 99999;
-        this.tiempoCierre = tiempoCierre;
+
         /* SE HACE LLAMADA A LA FUNCION PARA INGRESAR UN ROW */
         // this.resultadosSimulacion.ingresarEstadistica (0,0, 5, 6, 9, 3, 9);
-        this.resultadosSimulacion.ingresarEvento("Inicializacion del Sistema", 0, this.tiempoActual, 0, 0, this.tiempoActual + at + "", this.tiempoActual + dt + "");
+        this.resultadosSimulacion.ingresarEvento(dia,"Inicializacion del Sistema", 0, this.tiempoActual, 0, 0, this.tiempoActual + at + "", this.tiempoActual + dt + "");
     }
-
     /** calcularTiempoMenorEtapas - busca el tiempo menor para un proximo evento de salida
      *
      * @param tiempoMenor: se le pasa el tiempo que falta para que un cliente llegue
@@ -98,7 +103,7 @@ public class Sistema {
                 at = this.demandantes.get(0).tiempoDeLlegada = this.generadorTiemposLlegada.obtenerTiempo();
             else
                 at = 99999;
-            this.resultadosSimulacion.ingresarEvento("Llegada al Sistema", idTemporal, this.tiempoActual + tiempoMenor, this.etapas.get(0).servidoresOcupados(), this.etapas.get(0).clientesEnCola.size(), this.tiempoActual + at + "", this.tiempoActual + this.calcularTiempoMenorEtapas(99999) + "");
+            this.resultadosSimulacion.ingresarEvento(dia, "Llegada al Sistema", idTemporal, this.tiempoActual + tiempoMenor, this.etapas.get(0).servidoresOcupados(), this.etapas.get(0).clientesEnCola.size(), this.tiempoActual + at + "", this.tiempoActual + this.calcularTiempoMenorEtapas(99999) + "");
             // Evento llegada al Sistema
         } else {
             tiempoMenor = dt;
@@ -115,13 +120,13 @@ public class Sistema {
             for (Cliente cliente: etapa.sacarClientes()) {
                 if (etapa.identificador == this.etapas.size()) {
                     // Evento salida del sistema
-                    this.resultadosSimulacion.ingresarEvento("Salida del Sistema", cliente.identificador, this.tiempoActual, etapa.servidoresOcupados(), etapa.clientesEnCola.size(), this.tiempoActual + at + "", this.tiempoActual + dt + "");
+                    this.resultadosSimulacion.ingresarEvento(dia, "Salida del Sistema", cliente.identificador, this.tiempoActual, etapa.servidoresOcupados(), etapa.clientesEnCola.size(), this.tiempoActual + at + "", this.tiempoActual + dt + "");
                     this.demandantes.add(new Cliente(cliente.identificador, this.generadorTiemposLlegada.obtenerTiempo()));
                     this.clientesEnSistema--;
                 } else {
                     // Evento salida de una etapa
                     if (this.capacidadDeClientes > (this.etapas.get(etapa.identificador).clientesEnCola.size() + this.etapas.get(etapa.identificador).servidoresOcupados())) {
-                        this.resultadosSimulacion.ingresarEvento("Salida de etapa " + etapa.identificador, cliente.identificador, this.tiempoActual, etapa.servidoresOcupados(), etapa.clientesEnCola.size(), this.tiempoActual + at + "", this.tiempoActual + dt + "");
+                        this.resultadosSimulacion.ingresarEvento(dia,"Salida de etapa " + etapa.identificador, cliente.identificador, this.tiempoActual, etapa.servidoresOcupados(), etapa.clientesEnCola.size(), this.tiempoActual + at + "", this.tiempoActual + dt + "");
                         this.etapas.get(etapa.identificador).agregarCliente(new Cliente(cliente.identificador, this.generadorTiemposLlegada.obtenerTiempo()));
                     } else {
                         System.err.println("El sistema colapso");
