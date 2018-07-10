@@ -508,10 +508,10 @@ public class DatosDeEntrada extends javax.swing.JFrame {
                 }
                 indiceEstacion++;
             }
-            etapas.add(new Etapa(servidores, indice+1, minutos, probabilidades));
+            etapas.add(new Etapa(50, servidores, indice+1, minutos, probabilidades));
             indice++;
         }
-        Sistema sistema = new Sistema(etapas, this.capacidadSistema, this.dataTiemposLlegada, this.dataProbabilidadesTiemposLlegada, 17);
+        Sistema sistema = new Sistema(50, etapas, this.capacidadSistema, this.dataTiemposLlegada, this.dataProbabilidadesTiemposLlegada, 500);
         System.out.println(sistema.clientesEnSistema+sistema.demandantes.size());
         for (int i = 0; !sistema.end; i++) {
             // System.out.println("//////////////////////////////////////////////////////////////");
