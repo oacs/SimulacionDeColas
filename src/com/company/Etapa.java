@@ -38,14 +38,16 @@ public class Etapa {
     public double promCola; // Promedio de un cliente en cola.
     public int totalCantidadClientesEspera = 0;
     public int totalCantidadClientesServicio = 0;
+    public int capacidadDeClientes;
 
 
     /** Constructor de Etapa
      * @param cantidadTotalDeServidores: Cantidad de servidores en paralelo que posee la etapa.
      * @param identificador: Numero de la etapa.
      */
-    public Etapa(int cantidadTotalDeServidores, int identificador, ArrayList < Integer > minutos, ArrayList < Float > probabilidades) {
+    public Etapa(int capacidadDeClientes, int cantidadTotalDeServidores, int identificador, ArrayList < Integer > minutos, ArrayList < Float > probabilidades) {
         this.cantidadTotalDeServidores = cantidadTotalDeServidores;
+        this.capacidadDeClientes = capacidadDeClientes;
         this.identificador = identificador;
         this.clientesEnCola = new ArrayList < Cliente > ();
         this.clientesEnServicio = new Servidor[cantidadTotalDeServidores];
@@ -271,7 +273,7 @@ public class Etapa {
     public float getTiempoPromedioClienteHaceCola() {
         return (float)((this.clientesConEspera > 0) ? (this.totalTiemposEnCola / this.clientesConEspera) : 0);
     }
-    
+
     /**
      * imprime estadisticas del sistema.
      */

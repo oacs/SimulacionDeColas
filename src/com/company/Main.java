@@ -25,9 +25,9 @@ public class Main {
         probabilidades2.add(0.5f);
         probabilidades2.add(0.3f);
         probabilidades2.add(0.2f);
-        etapas.add(new Etapa(1,1, minutos, probabilidades));
-        etapas.add(new Etapa(2,2, minutos, probabilidades2));
-        Sistema sistema = new Sistema(etapas, 10, minutos, probabilidades, 40);
+        etapas.add(new Etapa(50, 1,1, minutos, probabilidades));
+        etapas.add(new Etapa(50, 2,2, minutos, probabilidades2));
+        Sistema sistema = new Sistema(50, etapas, 10, minutos, probabilidades, 40);
 
         for (int i = 0; i < 10; i++) {
             sistema.mostrarDemandantes();
