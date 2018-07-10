@@ -8,23 +8,16 @@ import javax.swing.table.DefaultTableModel;
 
 public class ResultadosSimulacion extends javax.swing.JFrame {
     private DefaultTableModel modeloEventos;
-    private DefaultTableModel modeloEstadisticas;
-    private static int contadorEventos;
+    private DefaultTableModel modeloEstadisticas;;
+    private DefaultTableModel modeloPorcentajes;
+    private static int contadorEventos; 
     private static int cantidadEstaciones;
-    private ArrayList < ArrayList < Float[] >> estadisticasAlmacenadas;
-    private ArrayList < Float[] > element;
-    Float[] ax = {
-        1F,
-        2F,
-        3F,
-        4F,
-        5F,
-        6F,
-        7F,
-            8f, 9F
-    };
-
-    public ResultadosSimulacion(int cantidadEstaciones) {
+    private ArrayList<Integer> cantidadServidores;
+    private ArrayList<Float[]> estadisticasAlmacenadas; 
+    private ArrayList<Float[]> porcentajesAlmacenados;
+    Float[] ax = {1F, 2F, 3F, 4F, 5F, 6F, 7F};
+    
+    public ResultadosSimulacion( int cantidadEstaciones, ArrayList<Integer> cantidadServidores) {
         initComponents();
         contadorEventos = 0;
         modeloEventos = new DefaultTableModel(new Object[][] {}, new String[] {
@@ -50,18 +43,26 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
             "Tiempo Promedio con espera",
             "Promedio tiempo despues de cierre"
         });
+        modeloPorcentajes = new DefaultTableModel( new Object [][] {},new String [] {"Porcentaje de Utilización"});
         tablaEstadisticas.setModel(modeloEstadisticas);
-        estadisticasAlmacenadas = new ArrayList < ArrayList < Float[] >> ();
-        element = new ArrayList < Float[] > ();
+        tablaEstadisticas1.setModel(modeloPorcentajes);
+        estadisticasAlmacenadas = new ArrayList<Float[]>(); 
+        porcentajesAlmacenados = new ArrayList<Float[]>(); 
         inicializarComboBox(cantidadEstaciones);
+        inicializarComboBox1(cantidadServidores);
         // ingresarEstadistica(2,0,0,0,0,0,0);
-        for (int i = 0; i < cantidadEstaciones; i++) {
-            /*for (int j=0; j<7; j++){
-                element.add(ax);
+        for (int i=0; i<cantidadEstaciones; i++){    
+            estadisticasAlmacenadas.add(ax);
+            for (int j=0; j<7; j++){
+                actualizarEstadisticas (i, j, i+1F, i+2F, i+3F, i+4F, i+5F, i+6F, i+7F); 
             }
-            estadisticasAlmacenadas.add(element);    */
-            for (int j = 0; j < 7; j++) {
-                actualizarEstadisticas(i, j, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        }
+        int k =0;
+        for (Integer i: cantidadServidores){
+            for (int j=1; j<=i; j++){
+                porcentajesAlmacenados.add(ax);
+                actualizarPorcentajes (k, j-1, k+j+2F); 
+                k++;
             }
         }
     }
@@ -100,7 +101,17 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
             for (int i = 1; i < cantidadEstaciones + 1; i++)
                 comboBox.insertItemAt("Estacion " + i, i);
     }
-
+    
+    public void inicializarComboBox1(ArrayList<Integer> cantidad){
+        int k = 1;
+        for (Integer i: cantidad){
+            for (int j=1; j<=i; j++){
+                comboBox1.insertItemAt("Estacion "+k+" Servidor "+j, k-1);    
+                k++;
+            }
+        }
+    }
+    
     /* 
     arg1: Cantidad de clientes que no esperan
     arg2: Cantidad de clientes que se van sin ser atendidos
@@ -146,6 +157,16 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
                 promedioTiempoEspera + " " +
                 tiempoAdicional);
     }
+    
+    public void actualizarPorcentajes(int target, int servidor, float valor){ 
+        // target = 0 Sistema ; 1 <= target Estacion
+        Float[] aux = porcentajesAlmacenados.get(target);
+        aux[servidor] = valor;
+        porcentajesAlmacenados.add(target,aux);
+    }
+    
+    
+    public void rellenarTablaEstadisticas(int target){
 
     public void rellenarTablaEstadisticas(int target) {
         DefaultTableModel aux = (DefaultTableModel) tablaEstadisticas.getModel();
@@ -159,14 +180,29 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
             });
         }
     }
-
-    public void limpiarTablaEstadisticas() {
-        DefaultTableModel aux = (DefaultTableModel) tablaEstadisticas.getModel();
-        int ax = aux.getRowCount() - 1;
-        if (ax != 0) {
-            for (int i = ax; i >= 0; i--) {
-                aux.removeRow(aux.getRowCount() - 1);
-            }
+    
+    public void rellenarTablaEstadisticas1(int target){
+        DefaultTableModel aux = (DefaultTableModel) tablaEstadisticas1.getModel();
+        Float[] estadisticas = porcentajesAlmacenados.get(target);
+        limpiarTablaEstadisticas(2);
+        for (int i=0; i<7; i++){ 
+            aux.addRow(new Object[]{estadisticas[0],estadisticas[1],estadisticas[2],estadisticas[3],estadisticas[4],estadisticas[5],estadisticas[6]});            
+        }
+    }
+    
+    public void limpiarTablaEstadisticas(int opc){
+        DefaultTableModel aux;
+        if (opc == 1){
+             aux = (DefaultTableModel) tablaEstadisticas.getModel();
+        }
+        else {
+            aux = (DefaultTableModel) tablaEstadisticas1.getModel();
+        }
+        int ax = aux.getRowCount()-1;
+        if (ax != 0){
+        for (int i=ax; i>=0; i--){
+            aux.removeRow(aux.getRowCount()-1);
+        }            
         }
     }
 
@@ -181,7 +217,11 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaEstadisticas = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
-        comboBox = new javax.swing.JComboBox < > ();
+        comboBox = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        comboBox1 = new javax.swing.JComboBox<>();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tablaEstadisticas1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -273,6 +313,34 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Dialog", 3, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel3.setText("Porcentajes de:");
+
+        comboBox1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboBox1ItemStateChanged(evt);
+            }
+        });
+        comboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBox1ActionPerformed(evt);
+            }
+        });
+
+        tablaEstadisticas1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(tablaEstadisticas1);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -284,27 +352,45 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
                         .addComponent(jLabel1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(23, 23, 23)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel2)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(comboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1061, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addComponent(comboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 797, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1061, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(20, Short.MAX_VALUE))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 797, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(comboBox1, 0, 260, Short.MAX_VALUE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(128, 128, 128)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(comboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(comboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(51, 51, 51)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(26, Short.MAX_VALUE))
         );
@@ -329,12 +415,21 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
 
         if (evt.getStateChange() == ItemEvent.SELECTED)
             rellenarTablaEstadisticas(comboBox.getSelectedIndex());
-        // System.out.println ('AQUIIIII ESTA LO DEL COMBOBOXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" + comboBox.getSelectedIndex());
-    } //GEN-LAST:event_comboBoxItemStateChanged
+    }//GEN-LAST:event_comboBoxItemStateChanged
 
     private void comboBoxActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_comboBoxActionPerformed
         // TODO add your handling code here:
     } //GEN-LAST:event_comboBoxActionPerformed
+
+    private void comboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboBox1ItemStateChanged
+        // TODO add your handling code here:
+        if(evt.getStateChange() == ItemEvent.SELECTED)
+            rellenarTablaEstadisticas1(comboBox1.getSelectedIndex());
+    }//GEN-LAST:event_comboBox1ItemStateChanged
+
+    private void comboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboBox1ActionPerformed
 
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -361,20 +456,24 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ResultadosSimulacion(6).setVisible(true);
+                //new ResultadosSimulacion(6, 3).setVisible(true);
             }
         });
 
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox < String > comboBox;
+    private javax.swing.JComboBox<String> comboBox;
+    private javax.swing.JComboBox<String> comboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable tablaEstadisticas;
+    private javax.swing.JTable tablaEstadisticas1;
     private javax.swing.JTable tablaEventos;
     // End of variables declaration//GEN-END:variables
 }
