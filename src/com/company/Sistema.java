@@ -258,6 +258,22 @@ public class Sistema {
         }
         return tiempoPromedioColaEtapas / this.etapas.size();
     }
+    
+    public String calcularPorcentaje (float x, float y){
+        float porcentaje;
+        String mensaje = "";
+        if (x>=y){
+            // Calculamos el porcentaje de diferencia.
+            porcentaje = ((x-y)*100)/x;
+            mensaje = "\nSe disminuye en un " + porcentaje + "%";
+        }
+        else if (x<y){
+            // Calculamos el porcentaje de diferencia.
+            porcentaje = ((y-x)*100)/y;
+            mensaje = "\nSe aumenta en un " + porcentaje + "%";            
+        }
+        return mensaje;
+    }
 
     public void estadisticas() {
         if (this.tiempoActual < this.tiempoCierre) {
@@ -319,12 +335,17 @@ public class Sistema {
             i++;
         }
         if(this.dia==13){
-            this.resultadosSimulacion.sugerencias = "Los tiempos actuales son: \nTiempo Mayor en Cola: " + this.tiempoMayorCola;
-            this.resultadosSimulacion.sugerencias = this.resultadosSimulacion.sugerencias + "\nTiempo Menor en Cola: " + this.tiempoMenorCola;
-            System.out.println(this.etapas.get(etapaCambioAumentar).getTiempoPromedioEnCola());
+            this.resultadosSimulacion.sugerencias = "Tiempo Menor en Cola: " + this.tiempoMenorCola;
+            this.resultadosSimulacion.sugerencias = this.resultadosSimulacion.sugerencias + "\nTiempo Cambio a Disminuir en Cola: " + this.etapas.get(etapaCambioDisminuir).getTiempoPromedioEnCola();
+            this.resultadosSimulacion.sugerencias = this.resultadosSimulacion.sugerencias + this.calcularPorcentaje(this.tiempoMenorCola, this.etapas.get(etapaCambioDisminuir).getTiempoPromedioEnCola());
+            
+            this.resultadosSimulacion.sugerencias = this.resultadosSimulacion.sugerencias + "\n\nTiempo Mayor en Cola: " + this.tiempoMayorCola;
+            this.resultadosSimulacion.sugerencias = this.resultadosSimulacion.sugerencias + "\nTiempo Cambio a Aumentar en Cola: " + this.etapas.get(etapaCambioAumentar).getTiempoPromedioEnCola();
+            this.resultadosSimulacion.sugerencias = this.resultadosSimulacion.sugerencias + this.calcularPorcentaje(this.tiempoMayorCola, this.etapas.get(etapaCambioAumentar).getTiempoPromedioEnCola());
+            /*System.out.println(this.etapas.get(etapaCambioAumentar).getTiempoPromedioEnCola());
             System.out.println(this.etapas.get(etapaCambioDisminuir).getTiempoPromedioEnCola());
             System.out.println(this.tiempoMayorCola);
-            System.out.println(this.tiempoMenorCola);
+            System.out.println(this.tiempoMenorCola);*/
         }
         if(this.dia==6){
             print = false;
