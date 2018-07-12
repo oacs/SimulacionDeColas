@@ -75,6 +75,9 @@ public class Etapa {
         this.clientesConEspera = 0;
         this.totalCantidadClientesEspera = 0;
         this.totalCantidadClientesServicio = 0;
+        for (int i = 0; i < clientesEnServicio.length; i++) {
+            clientesEnServicio[i].clientesAtendidos = 0;
+        }
     }
 
     /**  calcularTiempoProximoEvento - Busca el menor tiempo restante para
@@ -119,8 +122,9 @@ public class Etapa {
     private void aumentarTiemposDeCola(int tiempoTranscurrido) {
         for (Cliente cliente: clientesEnCola) {
             cliente.tiempoEnCola += tiempoTranscurrido;
-            totalCantidadClientesEspera += tiempoTranscurrido * clientesEnCola.size();
+
         }
+        totalCantidadClientesEspera += (tiempoTranscurrido * clientesEnCola.size());
     }
 
     /** DisminuirTiemposEnServicio - Le sustrae el tiempo transcurrido al tiempo restante
@@ -133,10 +137,10 @@ public class Etapa {
             if (servidor.clienteEnServicio != null) {
                 servidor.clienteEnServicio.tiempoEnServicio -= tiempoTranscurrido;
                 totalTiemposEnServicio += tiempoTranscurrido;
-                totalCantidadClientesServicio += tiempoTranscurrido * servidoresOcupados();
-            }
 
+            }
         }
+        totalCantidadClientesServicio += tiempoTranscurrido * servidoresOcupados();
     }
 
     /** sacarClientes - toma todos los clientes que su tiempo de servicio culmino y los saca de los
@@ -298,7 +302,8 @@ public class Etapa {
      */
     public void estadisticas() {
         double acum = this.clientesConEspera + this.clientesSinEspera;
-        System.out.println("\nEtapa: " + this.identificador);
+
+        /*System.out.println("\nEtapa: " + this.identificador);
         System.out.println("Clientes Atendidos: " + acum);
         System.out.println("Cantidad de Clientes que No Esperan: " + this.clientesSinEspera);
         System.out.println("Cantidad de Clientes que Esperan: " + this.clientesConEspera);
@@ -310,15 +315,15 @@ public class Etapa {
            /* System.out.println(
                 "\tPorcentaje de utilizacion en Etapa "+ i + ": " + String.format("%2.f", servidor.getPorcentajeDeUtilizacion(acum)*100) + "\n"
             );*/
-            System.out.printf("\tPorcentaje de utilizacion en Etapa %d: %.2f\n", i, servidor.getPorcentajeDeUtilizacion((float)acum)*100 );
-        }
+           // System.out.printf("\tPorcentaje de utilizacion en Etapa %d: %.2f\n", i, servidor.getPorcentajeDeUtilizacion((float)acum)*100 );
+       /* }
         double ax = (this.clientesConEspera / acum);
         this.probEsperar = (this.clientesConEspera / acum);
         System.out.println("Probabilidad de Esperar: " + this.probEsperar);
         this.promCola = this.totalTiemposEnCola / acum;
         System.out.println("Tiempo Promedio Cliente en Cola: " + this.promCola);
         ax = (this.clientesConEspera > 0) ? (this.totalTiemposEnCola / this.clientesConEspera) : 0;
-        System.out.println("Tiempo de Espera de un Cliente que hace Cola: " + ax);
+        System.out.println("Tiempo de Espera de un Cliente que hace Cola: " + ax);*/
     }
 
 }

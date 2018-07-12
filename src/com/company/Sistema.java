@@ -65,7 +65,11 @@ public class Sistema {
         }
         /* SE HACE LLAMADA A LA FUNCION PARA INGRESAR UN ROW */
         // this.resultadosSimulacion.ingresarEstadistica (0,0, 5, 6, 9, 3, 9);
-        this.resultadosSimulacion.ingresarEvento(dia, "Inicializacion del Sistema", 0, this.tiempoActual, 0, 0, this.tiempoActual + at + "", this.tiempoActual + dt + "");
+        this.resultadosSimulacion.ingresarEvento(dia, "Inicializacion del Sistema", 0, this.tiempoActual, this.etapas.get(0).servidoresOcupados(),
+                this.etapas.get(1).servidoresOcupados(), this.etapas.get(2).servidoresOcupados(),
+                this.etapas.get(3).servidoresOcupados(), this.etapas.get(0).clientesEnCola.size(),
+                this.etapas.get(1).clientesEnCola.size(), this.etapas.get(2).clientesEnCola.size(),
+                this.etapas.get(3).clientesEnCola.size(), this.tiempoActual + at + "", this.tiempoActual + dt + "");
     }
     /** calcularTiempoMenorEtapas - busca el tiempo menor para un proximo evento de salida
      *
@@ -91,7 +95,7 @@ public class Sistema {
             System.out.println("Termino el sistema");
             this.end = true;
             for (Etapa etapa: this.etapas) {
-                etapa.estadisticas();
+                // etapa.estadisticas();
             }
 
             return;
@@ -114,7 +118,11 @@ public class Sistema {
                 at = this.demandantes.get(0).tiempoDeLlegada = this.generadorTiemposLlegada.obtenerTiempo();
             else
                 at = 99999;
-            this.resultadosSimulacion.ingresarEvento(dia, "Llegada al Sistema", idTemporal, this.tiempoActual + tiempoMenor, this.etapas.get(0).servidoresOcupados(), this.etapas.get(0).clientesEnCola.size(), this.tiempoActual + at + "", this.tiempoActual + this.calcularTiempoMenorEtapas(99999) + "");
+            this.resultadosSimulacion.ingresarEvento(dia, "Llegada al Sistema", idTemporal, this.tiempoActual + tiempoMenor, this.etapas.get(0).servidoresOcupados(),
+                    this.etapas.get(1).servidoresOcupados(), this.etapas.get(2).servidoresOcupados(),
+                    this.etapas.get(3).servidoresOcupados(), this.etapas.get(0).clientesEnCola.size(),
+                    this.etapas.get(1).clientesEnCola.size(), this.etapas.get(2).clientesEnCola.size(),
+                    this.etapas.get(3).clientesEnCola.size(), this.tiempoActual + at + "", this.tiempoActual + this.calcularTiempoMenorEtapas(99999) + "");
             // Evento llegada al Sistema
         } else {
             tiempoMenor = dt;
@@ -131,13 +139,24 @@ public class Sistema {
             for (Cliente cliente: etapa.sacarClientes()) {
                 if (etapa.identificador == this.etapas.size()) {
                     // Evento salida del sistema
-                    this.resultadosSimulacion.ingresarEvento(dia, "Salida del Sistema", cliente.identificador, this.tiempoActual, etapa.servidoresOcupados(), etapa.clientesEnCola.size(), this.tiempoActual + at + "", this.tiempoActual + dt + "");
+                    this.resultadosSimulacion.ingresarEvento(dia, "Salida del Sistema", cliente.identificador, this.tiempoActual, this.etapas.get(0).servidoresOcupados(),
+                            this.etapas.get(1).servidoresOcupados(), this.etapas.get(2).servidoresOcupados(),
+                            this.etapas.get(3).servidoresOcupados(), this.etapas.get(0).clientesEnCola.size(),
+                            this.etapas.get(1).clientesEnCola.size(), this.etapas.get(2).clientesEnCola.size(),
+                            this.etapas.get(3).clientesEnCola.size(), this.tiempoActual + at + "", this.tiempoActual + dt + "");
                     this.demandantes.add(new Cliente(cliente.identificador, this.generadorTiemposLlegada.obtenerTiempo()));
                     this.clientesEnSistema--;
                 } else {
                     // Evento salida de una etapa
                     if (this.capacidadDeClientes > (this.etapas.get(etapa.identificador).clientesEnCola.size() + this.etapas.get(etapa.identificador).servidoresOcupados())) {
-                        this.resultadosSimulacion.ingresarEvento(dia, "Salida de etapa " + etapa.identificador, cliente.identificador, this.tiempoActual, etapa.servidoresOcupados(), etapa.clientesEnCola.size(), this.tiempoActual + at + "", this.tiempoActual + dt + "");
+                        this.resultadosSimulacion.ingresarEvento(dia,
+                         "Salida de etapa " + etapa.identificador, cliente.identificador,
+                          this.tiempoActual, this.etapas.get(0).servidoresOcupados(),
+                           this.etapas.get(1).servidoresOcupados(), this.etapas.get(2).servidoresOcupados(),
+                            this.etapas.get(3).servidoresOcupados(), this.etapas.get(0).clientesEnCola.size(),
+                             this.etapas.get(1).clientesEnCola.size(), this.etapas.get(2).clientesEnCola.size(),
+                              this.etapas.get(3).clientesEnCola.size(),
+                              this.tiempoActual + at + "", this.tiempoActual + dt + "");
                         this.etapas.get(etapa.identificador).agregarCliente(new Cliente(cliente.identificador, this.generadorTiemposLlegada.obtenerTiempo()));
                     } else {
                         System.err.println("El sistema colapso");
@@ -228,7 +247,7 @@ public class Sistema {
         if (this.tiempoActual < this.tiempoCierre) {
             System.err.println("El sistema no logro mantenerse estable");
         }
-        System.out.println("\nSistema: ");
+        /*System.out.println("\nSistema: ");
         System.out.println("Clientes Atendidos: " + this.getClientesAtendidos());
         System.out.println("Cantidad de Clientes que No Esperan: " + this.getClientesSinEspera());
         System.out.println("Cantidad de Clientes que Esperan: " + this.getClientesEsperan());
@@ -239,27 +258,33 @@ public class Sistema {
         System.out.println("Probabilidad de Esperar: " + this.getProbabilidadDeEsperar());
         System.out.println("Tiempo Promedio Cliente en Cola: " + this.getTiempoPromedioEnCola());
         System.out.println("Tiempo Promedio Cliente en Cola: " + this.getTiempoPromedioEnSistema());
-        System.out.println("Tiempo de Espera de un Cliente que hace Cola: " + this.getTiempoPromedioClienteHaceCola());
+        System.out.println("Tiempo de Espera de un Cliente que hace Cola: " + this.getTiempoPromedioClienteHaceCola());*/
         float promedioEnCola = 0;
         float promedioEnServicio = 0;
         for (int i = 0; i < this.etapas.size(); i++) {
-            System.out.println("Promedio de clientes en cola en Etapa " + (i + 1) + ":  " + ((float)(this.etapas.get(i).totalCantidadClientesEspera) / ((float)(this.tiempoActual))));
+            // System.out.println("Promedio de clientes en cola en Etapa " + (i + 1) + ":  " + ((float)(this.etapas.get(i).totalCantidadClientesEspera) / ((float)(this.tiempoActual))));
             //System.out.println("Promedio de clientes en cola en Etapa " + i + ":" + this.etapas.get(i).totalCantidadClientesEspera + "/" +this.tiempoActual );
             promedioEnCola += ((float)(this.etapas.get(i).totalCantidadClientesEspera) / ((float)(this.tiempoActual)));
         }
         for (int i = 0; i < this.etapas.size(); i++) {
-            System.out.println("Promedio de clientes en servicio en Etapa " + (i + 1) + ":  " + ((float)(this.etapas.get(i).totalCantidadClientesServicio) / ((float)(this.tiempoActual))));
+            // System.out.println("Promedio de clientes en servicio en Etapa " + (i + 1) + ":  " + ((float)(this.etapas.get(i).totalCantidadClientesServicio) / ((float)(this.tiempoActual))));
             //System.out.println("Promedio de clientes en cola en Etapa " + i + ":" + this.etapas.get(i).totalCantidadClientesEspera + "/" +this.tiempoActual );
             promedioEnServicio += ((float)(this.etapas.get(i).totalCantidadClientesServicio) / ((float)(this.tiempoActual)));
         }
-        System.out.println("Clientes que se van sin ser atendidos: " + this.clientesPerdidos);
-        this.resultadosSimulacion.actualizarEstadisticas(0, dia, getClientesSinEspera(), clientesPerdidos, getProbabilidadDeEsperar(), getTiempoPromedioEnCola(), (this.getTiempoPromedioEnCola() + this.getTiempoPromedioEnSistema()), promedioEnCola,  (promedioEnCola + promedioEnServicio), this.getTiempoPromedioClienteHaceCola(), (this.tiempoActual - this.tiempoCierre));
+        // System.out.println("Clientes que se van sin ser atendidos: " + this.clientesPerdidos);
+        this.resultadosSimulacion.actualizarEstadisticas(0, dia, getClientesSinEspera(), clientesPerdidos, getProbabilidadDeEsperar(),  promedioEnCola,  (promedioEnCola + promedioEnServicio), getTiempoPromedioEnCola(), (this.getTiempoPromedioEnCola() + this.getTiempoPromedioEnSistema()), this.getTiempoPromedioClienteHaceCola(), (this.tiempoActual - this.tiempoCierre));
         int i = 1;
         for( Etapa etapa: this.etapas) {
+            System.out.println("Etapa "+etapa.identificador + " Cantidad promedio de clientes en cola :" + (etapa.totalCantidadClientesEspera/tiempoActual));
             this.resultadosSimulacion.actualizarEstadisticas(i, dia,
-                    etapa.clientesSinEspera, 0, etapa.getProbabilidadDeEsperar(),
-                    etapa.getTiempoPromedioEnCola(), (etapa.getTiempoPromedioEnCola() + etapa.getTiempoPromedioEnServicio()),
-                    ((float)(etapa.totalCantidadClientesEspera) / ((float)(this.tiempoActual))),  (((float)(etapa.totalCantidadClientesEspera) / ((float)(this.tiempoActual))) + ((float)(etapa.totalCantidadClientesServicio) / ((float)(this.tiempoActual)))), etapa.getTiempoPromedioClienteHaceCola(),
+                    etapa.clientesSinEspera,
+                    0,
+                    etapa.getProbabilidadDeEsperar(),
+                    (etapa.totalCantidadClientesEspera/tiempoActual),
+                    (etapa.totalCantidadClientesServicio/tiempoActual)+(etapa.totalCantidadClientesEspera/tiempoActual),
+                    etapa.getTiempoPromedioEnCola(),
+                    (etapa.getTiempoPromedioEnCola() + etapa.getTiempoPromedioEnServicio()),
+                    etapa.getTiempoPromedioClienteHaceCola(),
                     (this.tiempoActual - this.tiempoCierre));
             float [] buffer  = etapa.getPorcentajeDeUtilizacionEtapas();
             for (int j = 0; j < buffer.length; j++) {

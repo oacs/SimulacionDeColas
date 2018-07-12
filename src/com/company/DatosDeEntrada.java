@@ -511,7 +511,7 @@ public class DatosDeEntrada extends javax.swing.JFrame {
             etapas.add(new Etapa(50, servidores, indice+1, minutos, probabilidades));
             indice++;
         }
-        Sistema sistema = new Sistema(50, etapas, this.capacidadSistema, this.dataTiemposLlegada, this.dataProbabilidadesTiemposLlegada, 50);
+        Sistema sistema = new Sistema(500, etapas, this.capacidadSistema, this.dataTiemposLlegada, this.dataProbabilidadesTiemposLlegada, 180);
         System.out.println(sistema.clientesEnSistema+sistema.demandantes.size());
         for(int j = 0; j < 7; j++){
         for (int i = 0; !sistema.end; i++) {
@@ -519,8 +519,8 @@ public class DatosDeEntrada extends javax.swing.JFrame {
             // sistema.mostrarDemandantes();
             sistema.ejecutarTransicion();
             // System.out.println("\n Realizando la Iteracion "+ i+" tiempo "+sistema.tiempoActual+" \n\n");
-            // sistema.etapas.get(0).mostrarEtapa();
-            /**sistema.etapas.get(1).mostrarEtapa();
+            /* sistema.etapas.get(0).mostrarEtapa();
+            sistema.etapas.get(1).mostrarEtapa();
             sistema.etapas.get(2).mostrarEtapa();
             sistema.etapas.get(3).mostrarEtapa();*/
 
@@ -528,7 +528,8 @@ public class DatosDeEntrada extends javax.swing.JFrame {
         for(Etapa etapa: sistema.etapas){
             // System.out.println("Tiempo promedio de servicio en la etapa " + etapa.identificador + " = " + etapa .getTiempoPromedioEnServicio());
             // etapa.getTiempoPromedioEnCola();
-            System.out.println ("CANT CLIENTES SIN ESPERA " + etapa.clientesSinEspera);
+           //  System.out.println ("CANT CLIENTES SIN ESPERA " + etapa.clientesSinEspera);
+            etapa.estadisticas();
         }
         sistema.estadisticas();
         sistema.dia++;
@@ -607,20 +608,31 @@ public class DatosDeEntrada extends javax.swing.JFrame {
         aux.addRow(new Object[]{tablaEstaciones.getRowCount()+1,"3"});
         aux.addRow(new Object[]{tablaEstaciones.getRowCount()+1,"4"});
         aux = (DefaultTableModel) tablaTiemposServicio.getModel();
-        aux.addRow(new Object[]{"1","5","0.5"});
-        aux.addRow(new Object[]{"1","4","0.3"});
-        aux.addRow(new Object[]{"1","3","0.2"});
-        aux.addRow(new Object[]{"2","4","0.5"});
-        aux.addRow(new Object[]{"2","3","0.5"});
-        aux.addRow(new Object[]{"3","3","0.5"});
-        aux.addRow(new Object[]{"3","2","0.5"});
-        aux.addRow(new Object[]{"4","3","0.5"});
-        aux.addRow(new Object[]{"4","2","0.5"});
+        aux.addRow(new Object[]{"1","1","0.5"});
+        aux.addRow(new Object[]{"1","2","0.4"});
+        aux.addRow(new Object[]{"1","3","0.1"});
+        
+        aux.addRow(new Object[]{"2","10","0.25"});
+        aux.addRow(new Object[]{"2","12","0.25"});
+        aux.addRow(new Object[]{"2","14","0.25"});
+        aux.addRow(new Object[]{"2","18","0.25"});
+
+        aux.addRow(new Object[]{"3","2","0.35"});
+        aux.addRow(new Object[]{"3","4","0.35"});
+        aux.addRow(new Object[]{"3","6","0.15"});
+        aux.addRow(new Object[]{"3","8","0.15"});
+
+        aux.addRow(new Object[]{"4","1","0.45"});
+        aux.addRow(new Object[]{"4","3","0.30"});
+        aux.addRow(new Object[]{"4","5","0.15"});
+        aux.addRow(new Object[]{"4","7","0.10"});
         aux = (DefaultTableModel) tablaTiemposLlegada.getModel();
-        aux.addRow(new Object[]{"3","0.5"});
-        aux.addRow(new Object[]{"2","0.3"});
-        aux.addRow(new Object[]{"4","0.2"});
-        this.inputCapacidad.setText("20");
+        aux.addRow(new Object[]{"1","0.5"});
+        aux.addRow(new Object[]{"2","0.2"});
+        aux.addRow(new Object[]{"3","0.15"});
+        aux.addRow(new Object[]{"4","0.05"});
+        aux.addRow(new Object[]{"5","0.10"});
+        this.inputCapacidad.setText("9999");
         /*aux.addRow(new Object[]{tablaEstaciones.getRowCount()+1,"1"});
         aux = (DefaultTableModel) tablaTiemposServicio.getModel();
         aux.addRow(new Object[]{"1","2","0.5"});
