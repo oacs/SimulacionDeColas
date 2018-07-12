@@ -326,6 +326,8 @@ public class Sistema {
         }
         if(this.dia==6){
             print = false;
+            this.etapas.get(etapaCambioAumentar).inicializarServidores(this.etapas.get(etapaCambioAumentar).cantidadTotalDeServidores+1);
+            this.etapas.get(etapaCambioDisminuir).inicializarServidores(this.etapas.get(etapaCambioDisminuir).cantidadTotalDeServidores-1);
         }
     }
 }

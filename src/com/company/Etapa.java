@@ -66,6 +66,13 @@ public class Etapa {
         this.generadorTiemposServicio = new GeneradorDeTiempos(minutos, probabilidades);
     }
 
+    public void inicializarServidores(int nuevaCantidad){
+        this.clientesEnServicio = new Servidor[cantidadTotalDeServidores];
+        for (int i = 0; i < cantidadTotalDeServidores; i++) {
+            this.clientesEnServicio[i] = new Servidor();
+        }
+    }
+
     public void inicializar() {
         this.tiempoPromedioEnCola = 0;
         this.tiempoPromedioEnServicio = 0;
