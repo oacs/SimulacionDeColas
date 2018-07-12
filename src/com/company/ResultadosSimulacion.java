@@ -69,7 +69,7 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
         porcentajesAlmacenados = new ArrayList < Float[][] > ();
         this.cantidadServidores = cantidadServidores;
         inicializarComboBox(cantidadEstaciones);
-        //inicializarComboBox1(cantidadServidores);
+        // inicializarComboBox1(cantidadServidores);
         // ingresarEstadistica(2,0,0,0,0,0,0);
         for (int i = 0; i < cantidadEstaciones; i++) {
             for (int j = 0; j < 7; j++) {

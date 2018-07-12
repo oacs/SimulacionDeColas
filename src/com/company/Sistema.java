@@ -335,6 +335,8 @@ public class Sistema {
             i++;
         }
         if(this.dia==13){
+            this.resultadosSimulacion.sugerencias = this.resultadosSimulacion.sugerencias + "\nSe aumento la cantidad de servidores en la etapa " + etapaCambioAumentar;
+            this.resultadosSimulacion.sugerencias = this.resultadosSimulacion.sugerencias + "\nSe Disminuyo la cantidad de servidores en la etapa " + etapaCambioDisminuir;
             this.resultadosSimulacion.sugerencias = this.resultadosSimulacion.sugerencias + "\nTiempo Mayor en Cola: " + this.tiempoMayorCola;
             this.resultadosSimulacion.sugerencias = this.resultadosSimulacion.sugerencias + "\nTiempo Cambio a Disminuir en Cola: " + this.etapas.get(etapaCambioDisminuir).getTiempoPromedioEnCola();
             this.resultadosSimulacion.sugerencias = this.resultadosSimulacion.sugerencias + this.calcularPorcentaje(this.tiempoMayorCola, this.etapas.get(etapaCambioDisminuir).getTiempoPromedioEnCola());
