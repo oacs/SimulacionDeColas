@@ -256,7 +256,7 @@ public class Sistema {
         for (Etapa etapa: this.etapas) {
             tiempoPromedioColaEtapas += etapa.getTiempoPromedioClienteHaceCola();
         }
-        return tiempoPromedioColaEtapas / this.etapas.size();
+        return tiempoPromedioColaEtapas;
     }
     
     public String calcularPorcentaje (float x, float y){
