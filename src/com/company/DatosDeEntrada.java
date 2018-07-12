@@ -513,7 +513,7 @@ public class DatosDeEntrada extends javax.swing.JFrame {
         }
         Sistema sistema = new Sistema(500, etapas, this.capacidadSistema, this.dataTiemposLlegada, this.dataProbabilidadesTiemposLlegada, 180);
         System.out.println(sistema.clientesEnSistema+sistema.demandantes.size());
-        for(int j = 0; j < 7; j++){
+        for(int j = 0; j < 14; j++){
         for (int i = 0; !sistema.end; i++) {
             // System.out.println("//////////////////////////////////////////////////////////////");
             // sistema.mostrarDemandantes();
