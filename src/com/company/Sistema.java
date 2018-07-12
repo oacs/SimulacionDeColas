@@ -335,13 +335,10 @@ public class Sistema {
             i++;
         }
         if(this.dia==13){
-            this.resultadosSimulacion.sugerencias = "Tiempo Menor en Cola: " + this.tiempoMenorCola;
+            this.resultadosSimulacion.sugerencias = this.resultadosSimulacion.sugerencias + "\nTiempo Mayor en Cola: " + this.tiempoMayorCola;
             this.resultadosSimulacion.sugerencias = this.resultadosSimulacion.sugerencias + "\nTiempo Cambio a Disminuir en Cola: " + this.etapas.get(etapaCambioDisminuir).getTiempoPromedioEnCola();
-            this.resultadosSimulacion.sugerencias = this.resultadosSimulacion.sugerencias + this.calcularPorcentaje(this.tiempoMenorCola, this.etapas.get(etapaCambioDisminuir).getTiempoPromedioEnCola());
+            this.resultadosSimulacion.sugerencias = this.resultadosSimulacion.sugerencias + this.calcularPorcentaje(this.tiempoMayorCola, this.etapas.get(etapaCambioDisminuir).getTiempoPromedioEnCola());
             
-            this.resultadosSimulacion.sugerencias = this.resultadosSimulacion.sugerencias + "\n\nTiempo Mayor en Cola: " + this.tiempoMayorCola;
-            this.resultadosSimulacion.sugerencias = this.resultadosSimulacion.sugerencias + "\nTiempo Cambio a Aumentar en Cola: " + this.etapas.get(etapaCambioAumentar).getTiempoPromedioEnCola();
-            this.resultadosSimulacion.sugerencias = this.resultadosSimulacion.sugerencias + this.calcularPorcentaje(this.tiempoMayorCola, this.etapas.get(etapaCambioAumentar).getTiempoPromedioEnCola());
             /*System.out.println(this.etapas.get(etapaCambioAumentar).getTiempoPromedioEnCola());
             System.out.println(this.etapas.get(etapaCambioDisminuir).getTiempoPromedioEnCola());
             System.out.println(this.tiempoMayorCola);
