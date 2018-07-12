@@ -8,6 +8,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 public class ResultadosSimulacion extends javax.swing.JFrame {
+    public String sugerencias = "";
     private DefaultTableModel modeloEventos;
     private DefaultTableModel modeloEstadisticas;;
     private DefaultTableModel modeloPorcentajes;
@@ -28,6 +29,7 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
 
     public ResultadosSimulacion(int cantidadEstaciones, ArrayList < Integer > cantidadServidores) {
         initComponents();
+        this.setLocationRelativeTo(null);
         contadorEventos = 0;
         modeloEventos = new DefaultTableModel(new Object[][] {}, new String[] {
             "Dia",
@@ -259,11 +261,12 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaEstadisticas = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
-        comboBox = new javax.swing.JComboBox < > ();
+        comboBox = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tablaEstadisticas1 = new javax.swing.JTable();
-        comboBox2 = new javax.swing.JComboBox < > ();
+        comboBox2 = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -275,67 +278,27 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
         jLabel1.setText("Resultados de la simulación");
 
         tablaEventos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object[][] {
-                {
-                    null,
-                    null,
-                    null,
-                    null
-                }, {
-                    null,
-                    null,
-                    null,
-                    null
-                }, {
-                    null,
-                    null,
-                    null,
-                    null
-                }, {
-                    null,
-                    null,
-                    null,
-                    null
-                }
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
-            new String[] {
-                "Title 1",
-                "Title 2",
-                "Title 3",
-                "Title 4"
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
         jScrollPane1.setViewportView(tablaEventos);
 
         tablaEstadisticas.setModel(new javax.swing.table.DefaultTableModel(
-            new Object[][] {
-                {
-                    null,
-                    null,
-                    null,
-                    null
-                }, {
-                    null,
-                    null,
-                    null,
-                    null
-                }, {
-                    null,
-                    null,
-                    null,
-                    null
-                }, {
-                    null,
-                    null,
-                    null,
-                    null
-                }
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
-            new String[] {
-                "Title 1",
-                "Title 2",
-                "Title 3",
-                "Title 4"
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
         jScrollPane2.setViewportView(tablaEstadisticas);
@@ -360,34 +323,14 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
         jLabel3.setText("Porcentajes de:");
 
         tablaEstadisticas1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object[][] {
-                {
-                    null,
-                    null,
-                    null,
-                    null
-                }, {
-                    null,
-                    null,
-                    null,
-                    null
-                }, {
-                    null,
-                    null,
-                    null,
-                    null
-                }, {
-                    null,
-                    null,
-                    null,
-                    null
-                }
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
-            new String[] {
-                "Title 1",
-                "Title 2",
-                "Title 3",
-                "Title 4"
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
         jScrollPane3.setViewportView(tablaEstadisticas1);
@@ -400,6 +343,13 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
         comboBox2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboBox2ActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Sugerencias");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -426,10 +376,11 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                    .addComponent(comboBox2, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel3)
                                         .addGap(0, 129, Short.MAX_VALUE))
-                                    .addComponent(comboBox2, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -442,7 +393,9 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(128, 128, 128)
+                        .addGap(83, 83, 83)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(comboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -471,9 +424,9 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
         );
 
         pack();
-    } // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
 
-    private void comboBoxItemStateChanged(ItemEvent evt) { //GEN-FIRST:event_comboBoxItemStateChanged
+    private void comboBoxItemStateChanged(ItemEvent evt) {//GEN-FIRST:event_comboBoxItemStateChanged
 
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             rellenarTablaEstadisticas(comboBox.getSelectedIndex());
@@ -484,22 +437,27 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
                 this.inicializarComboBox2(this.cantidadServidores.get(i));
             }
         }
-    } //GEN-LAST:event_comboBoxItemStateChanged
+    }//GEN-LAST:event_comboBoxItemStateChanged
 
-    private void comboBoxActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_comboBoxActionPerformed
+    private void comboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxActionPerformed
         // TODO add your handling code here:
-    } //GEN-LAST:event_comboBoxActionPerformed
+    }//GEN-LAST:event_comboBoxActionPerformed
 
-    private void comboBox2ItemStateChanged(java.awt.event.ItemEvent evt) { //GEN-FIRST:event_comboBox2ItemStateChanged
+    private void comboBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboBox2ItemStateChanged
         // TODO add your handling code here:
         if (evt.getStateChange() == ItemEvent.SELECTED) {
             rellenarTablaEstadisticas1(comboBox.getSelectedIndex() - 1, comboBox2.getSelectedIndex());
         }
-    } //GEN-LAST:event_comboBox2ItemStateChanged
+    }//GEN-LAST:event_comboBox2ItemStateChanged
 
-    private void comboBox2ActionPerformed(java.awt.event.ActionEvent evt) { //GEN-FIRST:event_comboBox2ActionPerformed
+    private void comboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBox2ActionPerformed
         // TODO add your handling code here:
-    } //GEN-LAST:event_comboBox2ActionPerformed
+    }//GEN-LAST:event_comboBox2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+            javax.swing.JOptionPane.showMessageDialog(null, this.sugerencias);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -533,8 +491,9 @@ public class ResultadosSimulacion extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox < String > comboBox;
-    private javax.swing.JComboBox < String > comboBox2;
+    private javax.swing.JComboBox<String> comboBox;
+    private javax.swing.JComboBox<String> comboBox2;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

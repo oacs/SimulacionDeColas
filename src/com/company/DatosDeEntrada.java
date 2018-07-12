@@ -26,7 +26,8 @@ public class DatosDeEntrada extends javax.swing.JFrame {
 
     public DatosDeEntrada() {
         initComponents();
-        initTables();  
+        initTables(); 
+        this.setLocationRelativeTo(null); 
         inputCapacidad.setTransferHandler(null);
         capacidadSistema = 0;
         

@@ -319,6 +319,8 @@ public class Sistema {
             i++;
         }
         if(this.dia==13){
+            this.resultadosSimulacion.sugerencias = "Los tiempos actuales son: \nTiempo Mayor en Cola: " + this.tiempoMayorCola;
+            this.resultadosSimulacion.sugerencias = this.resultadosSimulacion.sugerencias + "\nTiempo Menor en Cola: " + this.tiempoMenorCola;
             System.out.println(this.etapas.get(etapaCambioAumentar).getTiempoPromedioEnCola());
             System.out.println(this.etapas.get(etapaCambioDisminuir).getTiempoPromedioEnCola());
             System.out.println(this.tiempoMayorCola);
